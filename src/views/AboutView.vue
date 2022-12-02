@@ -1,5 +1,12 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <div>Over Users : </div><br>
+    <p>Beheer gebruikers instellingen en basis tabellen</p>
+    <p>Versie 1.0 - 28/11/2022 - (c) UZ Gent</p>
+     <font-awesome-icon icon="fa-solid fa-user-secret" />
+     <font-awesome-icon icon="fa-solid fa-bicycle" />
+     <font-awesome-icon icon="fa-regular fa-pen-to-square" />
+     <font-awesome-icon icon="fa-solid fa-user" />
+     <button class="btn btn-primary btn-xs"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
   </div>
 </template>

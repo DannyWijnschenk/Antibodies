@@ -1,25 +1,21 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+import GridDelegates from '../views/GridDelegates.vue'
+import FrmDelegate from '../views/FrmDelegate.vue'
+import FrmLogin from '../views/FrmLogin.vue'
+import GridDelegatesLog from '../views/GridDelegatesLog.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
-})
+  routes: [
+    { path: '/',                       name: 'home',             component: HomeView },
+    { path: '/about',                  name: 'about',            component: () => import('../views/AboutView.vue') },
+    { path: '/login',                  name: 'FrmLogin',         component: FrmLogin },
+    { path: '/delegates',              name: 'GridDelegates',    component: GridDelegates },
+    { path: '/delegates/new',          name: 'FrmDelegate',      component: FrmDelegate },
+    { path: '/delegates/:delegateId',  name: 'FrmDelegate',      component: FrmDelegate },
+    { path: '/delegateslog',           name: 'GridDelegatesLog', component: GridDelegatesLog },
+  ]
+  })
 
 export default router

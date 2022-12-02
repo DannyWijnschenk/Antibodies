@@ -1,17 +1,46 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <div id="nav">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <a class="navbar-brand" href="#">&nbsp;Users</a>
+        <div class="navbar-nav mr-auto">
+            <router-link to="/" class="nav-item nav-link">Home</router-link>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Bevoegdheidsdelegatie</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <router-link to="/delegates" class="dropdown-item">Beheer</router-link>
+                <router-link to="/delegateslog" class="dropdown-item">Logging</router-link>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Voorkeuren</a></li>
+              </ul>
+            </li>
+            <router-link to="/about" class="nav-item nav-link">About</router-link>
+        </div>
+        <div class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <router-link to="/login" class="nav-item nav-link">{{getUser()}}<font-awesome-icon icon="fa-solid fa-user" /></router-link>
+            </li>
+        </div>
+    </nav>
+
+ </div>
+
   <router-view/>
 </template>
 
+<script>
+export default {
+  methods: {
+    getUser() {
+      return this.$store.getters.user
+    }
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 
@@ -24,7 +53,9 @@ nav a {
   color: #2c3e50;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+nav a.router-link-active {
+    color: #42b983;
+    background: rgb(34, 79, 239);
+    border-radius: .5rem;
 }
 </style>
