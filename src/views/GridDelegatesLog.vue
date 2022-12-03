@@ -55,7 +55,7 @@ export default {
   },
   data() {
     return {
-      title : 'Bevoegdheidsdelegatie Log om te testen',
+      title : 'Bevoegdheidsdelegatie Log',
       gridData : [],
       error : '',
       status : '',
