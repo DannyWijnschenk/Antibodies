@@ -10,37 +10,31 @@
           <div v-if="((error!='') && (error != null) && (error !== undefined))" class="alert alert-danger">
             <b>{{error}}</b>
           </div>
+          <div class="row">
+            <div class="col-md-1">User</div>
+              <div class="col-md-11">
+                <select v-model="filter.amsCode">
+                  <option v-for="user in filterUsers" :key=user v-bind:value="user.amsCode">{{user.amsCode}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">From</div>
+              <div class="col-md-3">
+                <vue-Datepicker v-model="filter.useFromTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
+              </div>
+              <div class="col-md-1">To</div>
+              <div class="col-md-3">
+                <vue-Datepicker v-model="filter.useToTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
+              </div>
+              <div class="col-md-3">
+                <input type="button" class="btn btn-info" v-on:click="getDelegatesLog();" value="search">
+              </div>
+            </div>
+            <div class="row">
+              <grid-data ref="grid" title="demo grid" table="DelegateLog"></grid-data>
+            </div>
         </div>
-        <div class="panel-body">
-          <table class="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th>EPD Gebruiker</th>
-                <th>Toegangscode</th>
-                <th>Ldap Gebruiker</th>
-                <th>App Type</th>
-                <th>App Id</th>
-                <th>Authority EPD Gebruiker</th>
-                <th>Authority Toegangscode</th>
-                <th>Authority Ldap Gebruiker</th>
-                <th>Ingelogd Op</th>
-              </tr>
-            </thead>
-            <tbody>
-            <tr v-for="row in gridData" :key="row.id">
-              <td>{{row.amsCode}}</td>
-              <td>{{row.accessCode}}</td>
-              <td>{{row.ldapUsername}}</td>
-              <td>{{row.appType}}</td>
-              <td>{{row.appId}}</td>
-              <td>{{row.authorityAmsCode}}</td>
-              <td>{{row.authorityAccessCode}}</td>
-              <td>{{row.authorityLdapUsername}}</td>
-              <td>{{row.usedAtTs}}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div> <!--panel body -->
       </div>  <!--panel default -->
     </div> <!--col 12 -->
   </div> <!--row-->
@@ -49,45 +43,38 @@
 
 <script>
 import LoginDialog from '@/components/LoginDialog.vue'
+import GridData from '@/components/GridData.vue'
 export default {
   components: {
-    LoginDialog
+    LoginDialog,
+    GridData
   },
   data() {
     return {
       title : 'Bevoegdheidsdelegatie Log',
-      gridData : [],
       error : '',
       status : '',
+      filter : {'amsCode': ''}
     }
   },
   methods: {
     loggedin() {
       this.getDelegatesLog();
     },
+    //getDemoGrid() {
+    //  this.refresh(this.getDemoGridNow);  //get refresh token if needed, call actual getGridNow as callback to prevent async lag
+    //},
+    //refresh(callBack) {
+    //  this.$refs.login.refresh(this.accessToken, this.refreshToken, this.accessTokenExpDate, callBack);
+    //},
     getDelegatesLog() {
-      this.error = '';
-      fetch(this.$store.getters.serverUrl+'/v1/users/delegateslog', {
-        "method": 'GET',
-        "headers": { "authorization": 'Bearer ' + this.$store.getters.serverAccessToken, "app":this.app },
-       }).then((response) => {  //=> enables the 'this' keyword to be used in the 'then' block
-        if (response.ok) {
-          return response.json(); //convert the response data to json
-        } else {
-          console.log(response)
-          throw new Error('Status code : ' + response.status + ' ' + response.statusText)
-        }
-      }).then((data) => {
-        this.gridData = data;
-      }).catch((error) => {
-        this.error = error;
-        console.log(error);
-      });
-    }
-  },
-  mounted() {
-    if (this.$store.getters.isLoggedIn) {
-      this.getDelegatesLog();
+      this.filter = {amsCode:''}
+      this.$refs.grid.getData(JSON.stringify(this.filter));
+    },
+    mounted() {
+      if (this.$store.getters.isLoggedIn) {
+        this.getDelegatesLog();
+       }
     }
   }
 }
