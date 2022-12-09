@@ -34,7 +34,7 @@
               </div>
             </div>
             <div class="row">
-              <grid-data ref="grid" title="Logging Bevoegdheidsdelegatie" table="DelegateLog"></grid-data>
+              <grid-data ref="grid" title="Logging Bevoegdheidsdelegatie" table="DelegateLog" v-on:gridClickRow="gridclickrow"></grid-data>
             </div>
         </div>
       </div>  <!--panel default -->
@@ -63,6 +63,9 @@ export default {
   methods: {
     loggedin() {
       this.getDelegatesLog();
+    },
+    gridclickrow(button,id) {
+      console.log("parent",button,id)
     },
     getFilterUsers() {
         fetch(this.$store.getters.serverUrl + "/v1/users/delegateslog/users", {

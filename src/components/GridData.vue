@@ -28,7 +28,15 @@
           <thead>
             <tr>
               <th v-for="column in header" :key="column" v-on:click="sortColumn(column)">
-                {{column}}
+                <span v-if="(typeof column === 'object')">
+                  <button v-if="column.button== 'add'" class="btn btn-primary btn-xs" v-on:click="clickRow('add')"><font-awesome-icon icon="fa-solid fa-plus"/></button>
+                  <button v-if="column.button== 'refresh'" class="btn btn-primary btn-xs" v-on:click="clickRow('refresh')"><font-awesome-icon icon="fa-solid fa-rotate"/></button>
+                  <button v-if="column.button== 'edit'" class="btn btn-primary btn-xs" v-on:click="clickRow('edit')"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
+                  <span v-if="(column.icon =='add')"><font-awesome-icon icon="fa-solid fa-plus" /></span>
+                  <span v-if="(column.icon =='refresh')"><font-awesome-icon icon="fa-solid fa-rotate" /></span>
+                  <span v-if="(column.icon =='edit')"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></span>
+                </span>
+                <span v-else>{{column}}</span>
                 <span v-if="column==sortKey">
                   <span v-if="sortDirection==-1"><font-awesome-icon icon="fa-solid fa-sort-down" /></span>
                   <span v-if="sortDirection==1"><font-awesome-icon icon="fa-solid fa-sort-up" /></span>
@@ -41,7 +49,17 @@
           </thead>
           <tbody>
             <tr v-for="row in results" :key="row">
-              <td v-for="value of row" :key="value">{{value}}</td>
+              <td v-for="value of row" :key="value">
+                <span v-if="(typeof value === 'object')">
+                  <button v-if="value.button== 'add'" class="btn btn-primary btn-xs" v-on:click="clickRow('add',value.value)"><font-awesome-icon icon="fa-solid fa-plus"/></button>
+                  <button v-if="value.button== 'refresh'" class="btn btn-primary btn-xs" v-on:click="clickRow('refresh',value.value)"><font-awesome-icon icon="fa-solid fa-rotate"/></button>
+                  <button v-if="value.button== 'edit'" class="btn btn-primary btn-xs" v-on:click="clickRow('edit',value.value)"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
+                  <span v-if="(value.icon =='edit')"><font-awesome-icon icon="fa-solid fa-plus" /></span>
+                  <span v-if="(value.icon =='refresh')"><font-awesome-icon icon="fa-solid fa-rotate" /></span>
+                  <span v-if="(value.icon =='add')"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></span>
+                </span>
+                <span v-else>{{value}}</span>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -169,8 +187,9 @@ export default {
       }
       this.sort();
     },
-
-
+    clickRow(buttonName, buttonId) {
+      this.$emit('gridClickRow', buttonName, buttonId);
+    },
     exportToCsv() {
       var filename = 'export.csv';
       var processRow = function (row) {

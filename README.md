@@ -1,5 +1,7 @@
 # userapp
 
+UZ Gent Gebruiker Backoffice
+
 ## Project setup
 ```
 npm install
