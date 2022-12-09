@@ -75,7 +75,6 @@ export default {
 			})
 			.then(response => {
 				if ((response.accessToken!=='')&&(response.accessToken!==undefined)) {
-					console.log('response', response);
 					this.accessToken = response.accessToken;
 					this.refreshToken = response.refreshToken;
 					this.accessTokenExpDate = response.accessTokenExpiresAt;
@@ -113,9 +112,7 @@ export default {
 		.then(response => { 
 			return response.json()
 		})
-		.then(response => {
-			console.log("uac",response);
-		});
+
 		this.$store.dispatch('saveToken', {
 			user: this.user,
 			accessToken: this.accessToken,

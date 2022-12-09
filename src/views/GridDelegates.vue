@@ -111,6 +111,7 @@ export default {
     },
   },
   mounted() {
+    console.log("griddelegates mounted")
     if (this.$store.getters.isLoggedIn) {
       this.getDelegates();
     }

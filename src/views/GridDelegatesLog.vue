@@ -2,18 +2,20 @@
  <login-dialog v-if='!this.$store.getters.isLoggedIn' ref="login" title="Login Server" app="UserApp" v-on:loggedin="loggedin"></login-dialog>
  <div class="row" v-if='this.$store.getters.isLoggedIn'>
     <div class="col-md-12">
-      <div class="panel panel-default">
-        <div class="panel-header">
+      <div class="card">
+        <div class="card-heading">
           <div v-if="((title!='') && (title != null) && (title !== undefined))" class="alert">
             <b>{{title}}</b>
           </div>
           <div v-if="((error!='') && (error != null) && (error !== undefined))" class="alert alert-danger">
             <b>{{error}}</b>
           </div>
+        </div>
+        <div class="card-body">
           <div class="row">
             <div class="col-md-1">User</div>
-              <div class="col-md-11">
-                <select v-model="filter.amsCode">
+              <div class="col-md-3">
+                <select class="form-select form-select-sm" v-model="filter.amsCode">
                   <option v-for="user in filterUsers" :key=user v-bind:value="user.amsCode">{{user.amsCode}}</option>
                 </select>
               </div>
@@ -32,7 +34,7 @@
               </div>
             </div>
             <div class="row">
-              <grid-data ref="grid" title="demo grid" table="DelegateLog"></grid-data>
+              <grid-data ref="grid" title="Logging Bevoegdheidsdelegatie" table="DelegateLog"></grid-data>
             </div>
         </div>
       </div>  <!--panel default -->
@@ -54,13 +56,24 @@ export default {
       title : 'Bevoegdheidsdelegatie Log',
       error : '',
       status : '',
-      filter : {'amsCode': ''}
+      filter : {'amsCode': ''},
+      filterUsers : []
     }
   },
   methods: {
     loggedin() {
       this.getDelegatesLog();
     },
+    getFilterUsers() {
+        fetch(this.$store.getters.serverUrl + "/v1/users/delegateslog/users", {
+          "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
+          "method": "GET"
+        }).then(response => { 
+          return response.json()  
+        }).then(response => {
+          this.filterUsers = response;
+        });
+      }, 
     //getDemoGrid() {
     //  this.refresh(this.getDemoGridNow);  //get refresh token if needed, call actual getGridNow as callback to prevent async lag
     //},
@@ -68,13 +81,13 @@ export default {
     //  this.$refs.login.refresh(this.accessToken, this.refreshToken, this.accessTokenExpDate, callBack);
     //},
     getDelegatesLog() {
-      this.filter = {amsCode:''}
       this.$refs.grid.getData(JSON.stringify(this.filter));
-    },
-    mounted() {
-      if (this.$store.getters.isLoggedIn) {
-        this.getDelegatesLog();
-       }
+    }
+  },
+  created() {
+    console.log("getdeletagelog created");
+    if (this.$store.getters.isLoggedIn) {
+      this.getFilterUsers();
     }
   }
 }

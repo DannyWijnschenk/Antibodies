@@ -12,6 +12,7 @@
         <button v-if="(pagination!==null) && pagination.currentPage!==undefined" :disabled="pagination.previousPageLink==undefined" v-on:click="prevPage()"> &lt; </button>
         <span v-if="(pagination!==null) && pagination.currentPage!==undefined">&nbsp; pag. {{pagination.currentPage}}/{{pagination.totalPages}}</span>&nbsp;
         <button v-if="(pagination!==null) && pagination.currentPage!==undefined" :disabled="pagination.nextPageLink==undefined" v-on:click="nextPage()"> &gt; </button>
+<!---
         <span v-if="(pagination!==null) && pagination.sortLabels!==undefined">
           Sort:<select v-model="sortKey" v-on:change="sort();">
               <option v-for="label in pagination.sortLabels" :key="label" v-bind:value="label">
@@ -20,12 +21,22 @@
             </select>
             aflopend&nbsp;<input type="checkbox" v-model="sortDescendingChecked" v-on:click="toggleDirection();" />
        </span>
+--->
       </div>
       <div class="panel-body" v-show="access">
         <table class="table table-striped table-hover">
           <thead>
             <tr>
-              <th v-for="column in header" :key="column">{{column}}</th>
+              <th v-for="column in header" :key="column" v-on:click="sortColumn(column)">
+                {{column}}
+                <span v-if="column==sortKey">
+                  <span v-if="sortDirection==-1"><font-awesome-icon icon="fa-solid fa-sort-down" /></span>
+                  <span v-if="sortDirection==1"><font-awesome-icon icon="fa-solid fa-sort-up" /></span>
+                </span>
+                <span v-else>
+                  <span v-if="isSortColumn(column)"><font-awesome-icon icon="fa-solid fa-up-down" /></span>
+                </span>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -56,7 +67,8 @@ export default {
       error : '',
       showSelection : true,
       exportCsv : false,
-      access : true
+      access : true,
+      header : []
     }
   },  
  methods : {
@@ -90,8 +102,7 @@ export default {
         "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
         "method": "GET"
         }).then(response => { 
-          console.log('header',response.headers.get('x-pagination'));
-          this.pagination = JSON.parse(response.headers.get('x-pagination'));
+         this.pagination = JSON.parse(response.headers.get('x-pagination'));
           if (this.pagination !== null) {
             this.resultKey = this.pagination.resultKey;
             this.sortKey = this.pagination.sortKey;
@@ -113,20 +124,40 @@ export default {
           if (response.access == false) {
             this.access = false;
           }
-          this.$emit('datafetched', this.access);
+          this.$emit('dataFetched', this.access);
         });
     },
     nextPage() {
-      var url = this.baseUrl + this.pagination.nextPageLink;
+      var url = this.$store.getters.serverUrl+"/v1/grid/"+this.table + this.pagination.nextPageLink;
       this.doFetch(url);
     },
     prevPage() {
-      var url = this.baseUrl + this.pagination.previousPageLink;
+      var url = this.$store.getters.serverUrl+"/v1/grid/"+this.table + this.pagination.previousPageLink;
       this.doFetch(url);
     },
     sort() {
       console.log('sort on ',this.sortKey);
       this.getData(this.selection) 
+    },
+    isSortColumn(column) {
+      var found = false;
+      for (var i=0;i<this.pagination.sortLabels.length;i++) {
+        if (column==this.pagination.sortLabels[i]) {
+          found = true;
+          return found
+        }
+      }
+      return found
+    },
+    sortColumn(column) {
+      if (!this.isSortColumn(column)) return
+      if (this.sortKey==column) {
+        this.toggleDirection();
+      } else {
+        this.sortKey = column;
+        this.sortDirection = 1;
+        this.getData(this.selection)
+      }
     },
     toggleDirection() {
       if (this.sortDescendingChecked) {

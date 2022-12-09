@@ -19,8 +19,12 @@ import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { faRotate } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { faSort } from '@fortawesome/free-solid-svg-icons'
+import { faSortUp } from '@fortawesome/free-solid-svg-icons'
+import { faSortDown } from '@fortawesome/free-solid-svg-icons'
+import { faUpDown } from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
-library.add(faUserSecret, faBicycle, faPenToSquare, faPlus, faRotate, faUser)
+library.add(faUserSecret, faBicycle, faPenToSquare, faPlus, faRotate, faUser, faSort, faSortUp, faSortDown, faUpDown)
 
 const store = createStore({
     state() {
