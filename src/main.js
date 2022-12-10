@@ -43,8 +43,11 @@ const store = createStore({
         connectToServer(state, url) { //call this from any component with this.$store.commit('connectToServer','http://localhost:57772/api/danny')
             state.server = url;
         },
-        userName(state, userName) {  //call this from any component with this.$store.commit('refreshToken')
+        userName(state, userName) {
           state.userName = userName;
+        },
+        userAccessCode(state, userAccessCode) {
+          state.userAccessCode = userAccessCode;
         },
         accessToken(state, accessToken) {  //call this from any component with this.$store.commit('accessToken')
             state.accessToken = accessToken;
@@ -56,6 +59,7 @@ const store = createStore({
     actions: {
         saveToken(context, payload) {  //call this with this.$store.dispatch('saveToken')
             context.commit('userName', payload.user);
+            context.commit('userAccessCode', payload.userAccessCode);
             context.commit('accessToken', payload.accessToken);
             context.commit('refreshToken', payload.refreshToken);
         },
@@ -77,6 +81,9 @@ const store = createStore({
         },
         user(state) {
             return (state.userName)
+        },
+        userAccessCode(state) {
+            return (state.userAccessCode)
         }
     }
 });

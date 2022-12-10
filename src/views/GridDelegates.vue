@@ -3,9 +3,7 @@
  <div class="row" v-if='this.$store.getters.isLoggedIn'>
    <grid-data ref="grid" title="Bevoegdheidsdelegatie" table="Delegate" v-on:gridClickRow="gridclickrow"></grid-data>
  </div>
-
 </template>
-
 
 <script>
 import LoginDialog from '@/components/LoginDialog.vue'

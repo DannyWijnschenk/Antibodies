@@ -115,8 +115,9 @@ export default {
 
 		this.$store.dispatch('saveToken', {
 			user: this.user,
+			userAccessCode: this.userAccessCode,
 			accessToken: this.accessToken,
-			refreshToken: this.refreshToken
+			refreshToken: this.refreshToken,
 		})
         this.$emit('loggedin');
 	},

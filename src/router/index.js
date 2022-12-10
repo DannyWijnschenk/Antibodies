@@ -4,6 +4,7 @@ import GridDelegates from '../views/GridDelegates.vue'
 import FrmDelegate from '../views/FrmDelegate.vue'
 import FrmLogin from '../views/FrmLogin.vue'
 import GridDelegatesLog from '../views/GridDelegatesLog.vue'
+import FrmMyPreferences from '../views/FrmMyPreferences.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -15,6 +16,7 @@ const router = createRouter({
     { path: '/delegates/new',          name: 'FrmDelegate',      component: FrmDelegate },
     { path: '/delegates/:delegateId',  name: 'FrmDelegate',      component: FrmDelegate },
     { path: '/delegateslog',           name: 'GridDelegatesLog', component: GridDelegatesLog },
+    { path: '/mypreferences',          name: 'FrmMyPreferences', component: FrmMyPreferences },
   ]
   })
 

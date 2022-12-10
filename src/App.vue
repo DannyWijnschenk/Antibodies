@@ -10,7 +10,7 @@
                 <router-link to="/delegates" class="dropdown-item">Beheer</router-link>
                 <router-link to="/delegateslog" class="dropdown-item">Logging</router-link>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Voorkeuren</a></li>
+                <router-link to="/mypreferences" class="dropdown-item">Mijn Voorkeuren</router-link>
               </ul>
             </li>
             <router-link to="/about" class="nav-item nav-link">About</router-link>
