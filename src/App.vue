@@ -33,6 +33,31 @@ export default {
     getUser() {
       return this.$store.getters.user
     }
+  },
+  mounted() {
+    console.log("app is mounted"); //was : http://localhost:57772/api/clinicom/dvp4
+    var path = location.pathname;  //e.g. /csp/demo/page.csp
+    var pathArray = path.split('/');
+    var namespace = 'dvp4';
+    for (var i=0;i<pathArray.length;i++) {
+      if (pathArray[i].substring(0,8)=='dsa-cla-') {
+        namespace = pathArray[i].substring(8);
+        break;
+      }
+      if (pathArray[i].substring(0,6)=='uzgent') {
+        namespace = 'uzgent';
+        break;
+      }
+    }
+
+    var port = location.port;
+    if (process.env.NODE_ENV === 'development') {
+      port = 57772;
+    }
+    var url = location.protocol+"//"+document.domain+":"+port+"/api/clinicom/"+namespace
+    console.log("environment",process.env.NODE_ENV)
+    this.$store.dispatch('setServer',url);
+    console.log("server is set to ",url)
   }
 }
 </script>

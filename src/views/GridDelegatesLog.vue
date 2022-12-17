@@ -1,45 +1,46 @@
 <template>
- <login-dialog v-if='!this.$store.getters.isLoggedIn' ref="login" title="Login Server" app="UserApp" v-on:loggedin="loggedin"></login-dialog>
- <div class="row" v-if='this.$store.getters.isLoggedIn'>
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-heading">
-          <div v-if="((title!='') && (title != null) && (title !== undefined))" class="alert">
-            <b>{{title}}</b>
-          </div>
-          <div v-if="((error!='') && (error != null) && (error !== undefined))" class="alert alert-danger">
-            <b>{{error}}</b>
+  <login-dialog v-if='!this.$store.getters.isLoggedIn' ref="login" title="Login Server" app="UserApp" v-on:loggedin="loggedin"></login-dialog>
+  <br>
+  <div class="ps-2 pe-2">  <!-- padding start and padding end of 2 pixels -->
+    <div class="container-fluid card ps-2" v-if='this.$store.getters.isLoggedIn'>  <!-- inner padding of 2 pixels -->
+      <div class="card-header" v-if='this.$store.getters.isLoggedIn'>
+        <div v-if="((title!='') && (title != null) && (title !== undefined))" class="">
+          <b>{{title}}</b>
+        </div>
+        <div v-if="((error!='') && (error != null) && (error !== undefined))" class="alert alert-danger">
+          <b>{{error}}</b>
+        </div>
+      </div>
+      <div class="card-body">
+        <form>
+        <div class="row mb-2">
+          <div class="col-md-1">User</div>
+          <div class="col-md-3">
+            <select class="form-select form-select-sm" v-model="filter.amsCode">
+              <option v-for="user in filterUsers" :key=user v-bind:value="user.amsCode">{{user.amsCode}}</option>
+            </select>
           </div>
         </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-1">User</div>
-              <div class="col-md-3">
-                <select class="form-select form-select-sm" v-model="filter.amsCode">
-                  <option v-for="user in filterUsers" :key=user v-bind:value="user.amsCode">{{user.amsCode}}</option>
-                </select>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-1">From</div>
-              <div class="col-md-3">
-                <vue-Datepicker v-model="filter.useFromTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
-              </div>
-              <div class="col-md-1">To</div>
-              <div class="col-md-3">
-                <vue-Datepicker v-model="filter.useToTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
-              </div>
-              <div class="col-md-3">
-                <input type="button" class="btn btn-info" v-on:click="getDelegatesLog();" value="search">
-              </div>
-            </div>
-            <div class="row">
-              <grid-data ref="grid" title="Logging Bevoegdheidsdelegatie" table="DelegateLog" v-on:gridClickRow="gridclickrow"></grid-data>
-            </div>
+        <div class="row mb-2">
+          <div class="col-md-1">From</div>
+          <div class="col-md-3">
+            <vue-Datepicker v-model="filter.useFromTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
+          </div>
+          <div class="col-md-1">To</div>
+          <div class="col-md-3">
+            <vue-Datepicker v-model="filter.useToTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
+          </div>
+          <div class="col-md-3">
+            <input type="button" class="btn btn-info" v-on:click="getDelegatesLog();" value="search">
+          </div>
         </div>
-      </div>  <!--panel default -->
-    </div> <!--col 12 -->
-  </div> <!--row-->
+      </form>
+        <div class="row">
+          <grid-data ref="grid" title="Logging Bevoegdheidsdelegatie" table="DelegateLog" v-on:gridClickRow="gridclickrow"></grid-data>
+        </div>
+      </div>
+    </div>
+  </div>  <!--card -->
 </template>
 
 

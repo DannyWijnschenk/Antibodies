@@ -1,8 +1,18 @@
 <template>
- <login-dialog v-if='!this.$store.getters.isLoggedIn' ref="login" title="Login Server" app="UserApp" v-on:loggedin="loggedin"></login-dialog>
- <div class="row" v-if='this.$store.getters.isLoggedIn'>
-   <grid-data ref="grid" title="Bevoegdheidsdelegatie" table="Delegate" v-on:gridClickRow="gridclickrow"></grid-data>
- </div>
+  <login-dialog v-if='!this.$store.getters.isLoggedIn' ref="login" title="Login Server" app="UserApp" v-on:loggedin="loggedin"></login-dialog>
+  <br>
+  <div class="ps-2 pe-2">  <!-- padding start and padding end of 2 pixels -->
+  <div class="container-fluid card ps-2" v-if='this.$store.getters.isLoggedIn'>  <!-- inner padding of 2 pixels -->
+    <div class="card-header">
+      <div>
+        <b>{{title}}</b>
+      </div>
+    </div>
+    <div class="card-body">
+      <grid-data ref="grid" title="Bevoegdheidsdelegatie" table="Delegate" v-on:gridClickRow="gridclickrow"></grid-data>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>

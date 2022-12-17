@@ -32,7 +32,7 @@ const store = createStore({
             userName: '',
             accessToken: '',
             refreshToken: '',
-            server: 'http://localhost:57772/api/clinicom/dvp4',
+            server: '',
             userAccessCode: '',
             accessTokenExpDate: '',
             refreshTokenExpDate: '',
@@ -67,6 +67,9 @@ const store = createStore({
             context.commit('userName', '');
             context.commit('accessToken', '');
             context.commit('refreshToken', '');
+        },
+        setServer(context, url) {
+            context.commit('connectToServer', url);
         }
     },
     getters: {

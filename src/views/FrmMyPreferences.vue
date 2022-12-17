@@ -1,25 +1,34 @@
 <template>
   <login-dialog v-if='!this.$store.getters.isLoggedIn' ref="login" title="Login Server" app="AppLogin" v-on:loggedin="loggedin"></login-dialog>
-  <div class="container card">
+  <br>
+  <div class="px-2">  <!-- padding start and padding end of 2 pixels -->
   <form v-if='this.$store.getters.isLoggedIn'>
-    <div>
-      <b>{{title}}</b>
-    </div>
-    <div v-if="((message!='') && (message != null) && (message !== undefined))" class="alert">
-        <b>{{message}}</b>
-    </div>
-    <div v-if="((error!='') && (error != null) && (error !== undefined))" class="alert alert-danger">
-        <b>{{error}}</b>
-    </div>
-    <div class="row mb-2">
-        <label for="gridPageSize" class="col-sm-3 col-form-label">Pagina grootte Grid Resultaten</label>
-        <div class="col-sm-2"><input type="text" class="form-control" v-model="form.gridPageSize" id="gridPageSize"/></div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-sm-5">
-        <button type="button" class="btn btn-primary" v-on:click="saveData();">Bewaar</button>&nbsp;
+  <div class="container-fluid card">
+    <div class="card-header">
+      <div>
+        <b>{{title}}</b>
+      </div>
+      <div v-if="((message!='') && (message != null) && (message !== undefined))" class="alert">
+          <b>{{message}}</b>
+      </div>
+      <div v-if="((error!='') && (error != null) && (error !== undefined))" class="alert alert-danger">
+          <b>{{error}}</b>
       </div>
     </div>
+    <div class="card-body">
+      <div class="row mb-2">
+        <label for="gridPageSize" class="col-sm-3 col-form-label">Pagina grootte Grid Resultaten</label>
+        <div class="col-sm-2"><input type="text" class="form-control" v-model="form.gridPageSize" id="gridPageSize"/></div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="row mb-2">
+        <div class="col-sm-5">
+          <button type="button" class="btn btn-primary" v-on:click="saveData();">Bewaar</button>&nbsp;
+        </div>
+      </div>
+    </div>
+  </div>
   </form>
   </div>
 </template>
