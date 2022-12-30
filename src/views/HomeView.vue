@@ -6,6 +6,7 @@
     -->
     Welkom, {{getUser()}}
   </div>
+  
 </template>
 
 <script>
@@ -20,6 +21,7 @@ export default {
   },
   methods: {
     getUser() {
+      this.$toast.show(`Hey! I'm here`);
       return this.$store.getters.user
     }
   }

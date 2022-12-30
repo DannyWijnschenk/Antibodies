@@ -65,6 +65,7 @@ export default {
         }).then(response => {
           this.message = response.message;
           this.error = response.error;
+          this.$toast.success('Saved');
         });
       },    
       getData() {
@@ -84,9 +85,7 @@ export default {
       }
     },
     created() {
-        console.log('form',this.form)
         this.getData();
-        console.log('form',this.form)
     }
 }
 </script>

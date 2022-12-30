@@ -44,7 +44,7 @@
           <div class="col-sm-3">App Id</div>
           <div class="col-sm-4">
           <select v-if="form.appType!=='ExternProgramma'" class="form-select form-select-sm" v-model="form.appId">
-              <option v-for="data in appCodes" v-bind:key="data.code">{{data.code}} ( {{data.description}} )</option>
+              <option v-for="data in appCodes" v-bind:key="data.code" v-bind:value="data.code">{{data.code}} ( {{data.description}} )</option>
           </select>
           <input v-if="form.appType=='ExternProgramma'" type="text" class="form-control" v-model="form.appId"/>
           </div>
@@ -81,20 +81,22 @@
     <div class="card-footer">
       <div class="row mb-2">
         <div class="col-sm-5">
-          <button type="button" class="btn btn-primary" v-on:click="saveData();">Bewaar</button>&nbsp;
-          <button v-if="(form.id!=='')&&(form.id!==undefined)" type="button" class="btn btn-danger" v-on:click="removeData();">Verwijder</button>&nbsp;
-          <button type="button" class="btn btn-warning" v-on:click="back();">Terug</button>&nbsp;
+          <button type="button" class="btn btn-outline-primary" v-on:click="saveData();">Bewaar</button>&nbsp;
+          <button v-if="(form.id!=='')&&(form.id!==undefined)" type="button" class="btn btn-outline-danger" v-on:click="removeData();">Verwijder</button>&nbsp;
+          <button type="button" class="btn btn-outline-warning" v-on:click="back();">Terug</button>&nbsp;
         </div>
       </div>
     </div>
   </div>
 </form>
 </div>
+
 </template>
 
 <script>
 import LoginDialog from '@/components/LoginDialog.vue'
 import { ref } from 'vue';  //for date picker
+
 
 export default {
     setup() {
@@ -161,7 +163,8 @@ export default {
         }).then(response => {
           this.message = response.message;
           this.error = response.error;
-          this.form.id = response.id
+          this.form.id = response.id;
+          this.$toast.success('Saved with id '+this.form.id);
         });
       },    
       getData() {
@@ -190,6 +193,7 @@ export default {
           this.error = response.error;
           if (response.status=='ok') {
             this.form = {};
+            this.$toast.show('Deleted', {type : 'error'});
           }
           this.$router.push('/delegates');
         });

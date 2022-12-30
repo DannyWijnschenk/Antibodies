@@ -1,3 +1,4 @@
+<!-- GridData v 1.0.1 23/12/2022 -->
 <template>
   <div class="col-md-12">
     <div class="panel panel-default">
@@ -9,19 +10,9 @@
         <div v-if="((error!='') && (error != null) && (error !== undefined))" class="alert alert-danger">
           <b>{{error}}</b>
         </div>
-        <button v-if="(pagination!==null) && pagination.currentPage!==undefined" :disabled="pagination.previousPageLink==undefined" v-on:click="prevPage()"> &lt; </button>
+        <button v-if="(pagination!==null) && pagination.currentPage!==undefined" :disabled="pagination.previousPageLink==undefined" v-on:click="prevPage()"> <font-awesome-icon icon="fa-solid fa-angle-left"/> </button>
         <span v-if="(pagination!==null) && pagination.currentPage!==undefined">&nbsp; pag. {{pagination.currentPage}}/{{pagination.totalPages}}</span>&nbsp;
-        <button v-if="(pagination!==null) && pagination.currentPage!==undefined" :disabled="pagination.nextPageLink==undefined" v-on:click="nextPage()"> &gt; </button>
-<!---
-        <span v-if="(pagination!==null) && pagination.sortLabels!==undefined">
-          Sort:<select v-model="sortKey" v-on:change="sort();">
-              <option v-for="label in pagination.sortLabels" :key="label" v-bind:value="label">
-                {{label}}
-              </option>
-            </select>
-            aflopend&nbsp;<input type="checkbox" v-model="sortDescendingChecked" v-on:click="toggleDirection();" />
-       </span>
---->
+        <button v-if="(pagination!==null) && pagination.currentPage!==undefined" :disabled="pagination.nextPageLink==undefined" v-on:click="nextPage()"> <font-awesome-icon icon="fa-solid fa-angle-right"/> </button>
       </div>
       <div class="panel-body" v-show="access">
         <table class="table table-striped table-hover">
@@ -29,9 +20,9 @@
             <tr>
               <th v-for="column in header" :key="column" v-on:click="sortColumn(column)">
                 <span v-if="(typeof column === 'object')">
-                  <button v-if="column.button== 'add'" class="btn btn-primary btn-xs" v-on:click="clickRow('add')"><font-awesome-icon icon="fa-solid fa-plus"/></button>
-                  <button v-if="column.button== 'refresh'" class="btn btn-primary btn-xs" v-on:click="clickRow('refresh')"><font-awesome-icon icon="fa-solid fa-rotate"/></button>
-                  <button v-if="column.button== 'edit'" class="btn btn-primary btn-xs" v-on:click="clickRow('edit')"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
+                  <button v-if="column.button== 'add'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('add')"><font-awesome-icon icon="fa-solid fa-plus"/></button>
+                  <button v-if="column.button== 'refresh'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('refresh')"><font-awesome-icon icon="fa-solid fa-rotate"/></button>
+                  <button v-if="column.button== 'edit'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('edit')"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
                   <span v-if="(column.icon =='add')"><font-awesome-icon icon="fa-solid fa-plus" /></span>
                   <span v-if="(column.icon =='refresh')"><font-awesome-icon icon="fa-solid fa-rotate" /></span>
                   <span v-if="(column.icon =='edit')"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></span>
@@ -51,9 +42,9 @@
             <tr v-for="row in results" :key="row">
               <td v-for="value of row" :key="value">
                 <span v-if="(typeof value === 'object')">
-                  <button v-if="value.button== 'add'" class="btn btn-primary btn-xs" v-on:click="clickRow('add',value.value)"><font-awesome-icon icon="fa-solid fa-plus"/></button>
-                  <button v-if="value.button== 'refresh'" class="btn btn-primary btn-xs" v-on:click="clickRow('refresh',value.value)"><font-awesome-icon icon="fa-solid fa-rotate"/></button>
-                  <button v-if="value.button== 'edit'" class="btn btn-primary btn-xs" v-on:click="clickRow('edit',value.value)"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
+                  <button v-if="value.button== 'add'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('add',value.value)"><font-awesome-icon icon="fa-solid fa-plus"/></button>
+                  <button v-if="value.button== 'refresh'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('refresh',value.value)"><font-awesome-icon icon="fa-solid fa-rotate"/></button>
+                  <button v-if="value.button== 'edit'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('edit',value.value)"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
                   <span v-if="(value.icon =='edit')"><font-awesome-icon icon="fa-solid fa-plus" /></span>
                   <span v-if="(value.icon =='refresh')"><font-awesome-icon icon="fa-solid fa-rotate" /></span>
                   <span v-if="(value.icon =='add')"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></span>
@@ -75,7 +66,7 @@ export default {
   ],
   data() {
     return {
-      results: [ { name:'Waiting for the result from the server ...' } ],
+      results: [ { name:'' } ],
       pagination : { resultKey:"", sortKey:"", sortDirection:""},
       resultKey : '',
       sortKey : '',
@@ -159,10 +150,12 @@ export default {
     },
     isSortColumn(column) {
       var found = false;
-      for (var i=0;i<this.pagination.sortLabels.length;i++) {
-        if (column==this.pagination.sortLabels[i]) {
-          found = true;
-          return found
+      if (this.pagination !== null) {
+        for (var i=0;i<this.pagination.sortLabels.length;i++) {
+          if (column==this.pagination.sortLabels[i]) {
+            found = true;
+            return found
+          }
         }
       }
       return found

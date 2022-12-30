@@ -7,6 +7,8 @@
      <font-awesome-icon icon="fa-solid fa-bicycle" />
      <font-awesome-icon icon="fa-regular fa-pen-to-square" />
      <font-awesome-icon icon="fa-solid fa-user" />
-     <button class="btn btn-primary btn-xs"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
+     <button class="btn btn-primary btn-xs" ><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
   </div>
+    <button @click="this.$toast.show(`Hey! I'm here`);">Toast it!</button> 
 </template>
+

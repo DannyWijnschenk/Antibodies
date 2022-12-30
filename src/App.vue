@@ -12,7 +12,7 @@
                 <li><hr class="dropdown-divider"></li>
                 <router-link to="/mypreferences" class="dropdown-item">Mijn Voorkeuren</router-link>
               </ul>
-            </li>
+           </li>
             <router-link to="/about" class="nav-item nav-link">About</router-link>
         </div>
         <div class="navbar-nav ms-auto">
@@ -35,7 +35,7 @@ export default {
     }
   },
   mounted() {
-    console.log("app is mounted"); //was : http://localhost:57772/api/clinicom/dvp4
+    console.log("app is mounted"); //was : http://localhost:57772/api/clinicom/dvp4 
     var path = location.pathname;  //e.g. /csp/demo/page.csp
     var pathArray = path.split('/');
     var namespace = 'dvp4';

@@ -7,6 +7,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.js"
 ///import bootstrap from 'bootstrap'
+import Toaster from '@meforma/vue-toaster';  //https://vuejsexamples.com/vue-js-toast-notification-plugin-for-vue-3/
 
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -23,8 +24,10 @@ import { faSort } from '@fortawesome/free-solid-svg-icons'
 import { faSortUp } from '@fortawesome/free-solid-svg-icons'
 import { faSortDown } from '@fortawesome/free-solid-svg-icons'
 import { faUpDown } from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
-library.add(faUserSecret, faBicycle, faPenToSquare, faPlus, faRotate, faUser, faSort, faSortUp, faSortDown, faUpDown)
+library.add(faUserSecret, faBicycle, faPenToSquare, faPlus, faRotate, faUser, faSort, faSortUp, faSortDown, faUpDown, faAngleLeft, faAngleRight)
 
 const store = createStore({
     state() {
@@ -97,4 +100,5 @@ app.component('font-awesome-icon', FontAwesomeIcon)
 app.component('vue-Datepicker', Datepicker);
 app.use(router);
 app.use(store);
+app.use(Toaster);
 app.mount('#app');
