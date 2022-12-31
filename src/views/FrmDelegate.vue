@@ -21,8 +21,9 @@
           <div class="col-sm-4">{{form.id}}</div>
       </div>
       <div class="row mb-2">
-          <label for="amsCode" class="col-sm-3 col-form-label">Ams Code</label>
-          <div class="col-sm-4"><input type="text" class="form-control" v-model="form.amsCode" id="amsCode"/></div>
+          <div class="col-sm-3">Ams Code</div>
+          <div class="col-sm-3"><input type="text" class="form-control" v-model="form.amsCode"/></div>
+          <div class="col-sm-1"><button type="button" class="btn btn-outline-secondary" v-on:click="lookupUser(form.amsCode);"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></button></div>
       </div>
       <div class="row mb-2">
           <div class="col-sm-3">Access Code</div>
@@ -83,7 +84,7 @@
         <div class="col-sm-5">
           <button type="button" class="btn btn-outline-primary" v-on:click="saveData();">Bewaar</button>&nbsp;
           <button v-if="(form.id!=='')&&(form.id!==undefined)" type="button" class="btn btn-outline-danger" v-on:click="removeData();">Verwijder</button>&nbsp;
-          <button type="button" class="btn btn-outline-warning" v-on:click="back();">Terug</button>&nbsp;
+          <button type="button" class="btn btn-outline-secondary" v-on:click="back();">Terug</button>&nbsp;
         </div>
       </div>
     </div>
@@ -91,11 +92,16 @@
 </form>
 </div>
 
+<div>
+  <modal-lookup-user title="Zoek gebruiker" :user=user v-if="isModalVisible" v-on:closemodaluser="closemodaluser">
+  </modal-lookup-user>
+</div>
 </template>
 
 <script>
 import LoginDialog from '@/components/LoginDialog.vue'
 import { ref } from 'vue';  //for date picker
+import ModalLookupUser from '@/components/ModalLookupUser.vue';
 
 
 export default {
@@ -104,7 +110,8 @@ export default {
         return { date }
     },
     components: {
-      LoginDialog
+      LoginDialog,
+      ModalLookupUser
     },
     data() {
         return {
@@ -117,10 +124,17 @@ export default {
             appCodes : [],
             filter: {},
             filterUsers : [],
-            form : {id : '', 'appType': ''}
+            form : {id : '', 'appType': '', 'amsCode' : ''},
+            isModalVisible : false
         }
     },
-    methods: {
+computed : {
+  user : function() {
+    console.log('user',this.form.amsCode)
+    return this.form.amsCode;
+  }
+},
+methods: {
       loggedin() {
       },
       getAppType() {
@@ -201,8 +215,17 @@ export default {
       back() {
           this.$router.push('/delegates');
       },
-    },
-    created() {
+      lookupUser() {
+        this.isModalVisible = true;
+        console.log("open modal",this.isModalVisible)
+      },
+    closemodaluser() {
+      console.log('parent closemodal',this.isModalVisible)
+      this.isModalVisible = false;
+      console.log("close modal",this.isModalVisible)
+    }
+  },
+  created() {
         this.getAppType();
         this.delegateId = this.$route.params.delegateId
         if (this.delegateId=='new') {

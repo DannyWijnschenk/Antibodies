@@ -81,7 +81,7 @@ export default {
     }
   },  
  methods : {
-    getData(selection) {
+    getData(selection, pageSize) {
         var url = ""
         if (selection===undefined) {
           url = this.$store.getters.serverUrl+"/v1/grid/"+this.table+ "?selection="
@@ -97,6 +97,9 @@ export default {
         }
         if (this.resultKey != '') {
           url = url + "&resultKey=" + this.resultKey;
+        }
+        if (pageSize>0) {
+          url = url + "&pageSize=" + pageSize;
         }
         this.selection = selection;
         this.baseUrl=this.server + "/v1/grid/" + this.table 
