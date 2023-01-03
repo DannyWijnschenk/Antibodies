@@ -1,4 +1,4 @@
-<!-- GridData v 1.0.1 23/12/2022 -->
+<!-- GridData v 1.0.2 02/01/2023 -->
 <template>
   <div class="col-md-12">
     <div class="panel panel-default">
@@ -23,9 +23,11 @@
                   <button v-if="column.button== 'add'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('add')"><font-awesome-icon icon="fa-solid fa-plus"/></button>
                   <button v-if="column.button== 'refresh'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('refresh')"><font-awesome-icon icon="fa-solid fa-rotate"/></button>
                   <button v-if="column.button== 'edit'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('edit')"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
+                  <button v-if="column.button== 'select'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('select')"><font-awesome-icon icon="fa-regular fa-thumbs-up"/></button>
                   <span v-if="(column.icon =='add')"><font-awesome-icon icon="fa-solid fa-plus" /></span>
                   <span v-if="(column.icon =='refresh')"><font-awesome-icon icon="fa-solid fa-rotate" /></span>
                   <span v-if="(column.icon =='edit')"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></span>
+                  <span v-if="(column.icon =='select')"><font-awesome-icon icon="fa-regular fa-thumbs-up" /></span>
                 </span>
                 <span v-else>{{column}}</span>
                 <span v-if="column==sortKey">
@@ -45,9 +47,11 @@
                   <button v-if="value.button== 'add'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('add',value.value)"><font-awesome-icon icon="fa-solid fa-plus"/></button>
                   <button v-if="value.button== 'refresh'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('refresh',value.value)"><font-awesome-icon icon="fa-solid fa-rotate"/></button>
                   <button v-if="value.button== 'edit'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('edit',value.value)"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
+                  <button v-if="value.button== 'select'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('select',value.value)"><font-awesome-icon icon="fa-regular fa-thumbs-up"/></button>
                   <span v-if="(value.icon =='edit')"><font-awesome-icon icon="fa-solid fa-plus" /></span>
                   <span v-if="(value.icon =='refresh')"><font-awesome-icon icon="fa-solid fa-rotate" /></span>
                   <span v-if="(value.icon =='add')"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></span>
+                  <span v-if="(value.icon =='select')"><font-awesome-icon icon="fa-regular fa-thumbs-up" /></span>
                 </span>
                 <span v-else>{{value}}</span>
               </td>

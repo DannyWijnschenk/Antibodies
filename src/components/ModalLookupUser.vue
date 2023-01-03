@@ -3,7 +3,7 @@
     <p>this is my content{{user}}</p>
     <input type="button" class="btn btn-info" v-on:click="getData();" value="search">
     <div class="row">
-      <grid-data ref="grid" title="" table="DelegateLog" v-on:gridClickRow="gridclickrow"></grid-data>
+      <grid-data ref="grid" title="" table="User" v-on:gridClickRow="gridClickRow"></grid-data>
     </div>
   </modal-lookup>    
 </template>
@@ -30,8 +30,11 @@
       },
       closemodal() {
         console.log("modallookupuser:close")
-        this.$emit('closemodaluser');
+        this.$emit('closemodaluser', '', '');
       },
+      gridClickRow(buttonName, buttonId) {
+        this.$emit('closemodaluser', buttonName, buttonId)
+      }
     },
   };
 </script>

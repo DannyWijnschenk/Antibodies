@@ -23,11 +23,16 @@
       <div class="row mb-2">
           <div class="col-sm-3">Ams Code</div>
           <div class="col-sm-3"><input type="text" class="form-control" v-model="form.amsCode"/></div>
-          <div class="col-sm-1"><button type="button" class="btn btn-outline-secondary" v-on:click="lookupUser(form.amsCode);"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></button></div>
+          <div class="col-sm-1"><button type="button" class="btn btn-outline-secondary" v-on:click="lookupUser();"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></button></div>
       </div>
       <div class="row mb-2">
           <div class="col-sm-3">Access Code</div>
-          <div class="col-sm-4"><input type="text" class="form-control" v-model="form.accessCode"/></div>
+          <div class="col-sm-4">
+            <select v-if="userAccessCodes.length>0" class="form-select" v-model="form.accessCode">
+              <option v-for="value in userAccessCodes" v-bind:key="value" v-bind:value="value">{{value}}</option>
+            </select>
+            <div v-else><input type="text" class="form-control" v-model="form.accessCode"/></div>
+          </div>
       </div>
       <div class="row mb-2">
           <div class="col-sm-3">Ldap Username</div>
@@ -36,7 +41,7 @@
       <div class="row mb-2">
           <div class="col-sm-3">App Type</div>
           <div class="col-sm-4">
-          <select class="form-select form-select-sm" v-model="form.appType" v-on:change="getAppCode();">
+          <select class="form-select" v-model="form.appType" v-on:change="getAppCode();">
               <option v-for="data in appTypes" v-bind:key="data.code">{{data.code}}</option>
           </select>
           </div>
@@ -44,7 +49,7 @@
       <div class="row mb-2">
           <div class="col-sm-3">App Id</div>
           <div class="col-sm-4">
-          <select v-if="form.appType!=='ExternProgramma'" class="form-select form-select-sm" v-model="form.appId">
+          <select v-if="form.appType!=='ExternProgramma'" class="form-select" v-model="form.appId">
               <option v-for="data in appCodes" v-bind:key="data.code" v-bind:value="data.code">{{data.code}} ( {{data.description}} )</option>
           </select>
           <input v-if="form.appType=='ExternProgramma'" type="text" class="form-control" v-model="form.appId"/>
@@ -52,11 +57,17 @@
       </div>
       <div class="row mb-2">
           <div class="col-sm-3">Authority Ams Code</div>
-          <div class="col-sm-4"><input type="text" class="form-control" v-model="form.authorityAmsCode"/></div>
+          <div class="col-sm-3"><input type="text" class="form-control" v-model="form.authorityAmsCode"/></div>
+          <div class="col-sm-1"><button type="button" class="btn btn-outline-secondary" v-on:click="lookupAuthUser();"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></button></div>
       </div>
       <div class="row mb-2">
-          <div class="col-sm-3">Authority Access Code</div>
-          <div class="col-sm-4"><input type="text" class="form-control" v-model="form.authorityAccessCode"/></div>
+        <div class="col-sm-3">Authority Access Code</div>
+        <div class="col-sm-4">
+          <select v-if="authUserAccessCodes.length>0" class="form-select" v-model="form.authorityAccessCode">
+            <option v-for="value in authUserAccessCodes" v-bind:key="value" v-bind:value="value">{{value}}</option>
+          </select>
+          <input v-else type="text" class="form-control" v-model="form.authorityAccessCode"/>
+        </div>
       </div>
       <div class="row mb-2">
           <div class="col-sm-3">Authority Ldap Username</div>
@@ -92,10 +103,16 @@
 </form>
 </div>
 
+<!-- modal 'popup' for search on user & authuser -->
 <div>
-  <modal-lookup-user title="Zoek gebruiker" :user=user v-if="isModalVisible" v-on:closemodaluser="closemodaluser">
+  <modal-lookup-user title="Zoek gebruiker" :user=user v-if="isModalUserVisible" v-on:closemodaluser="closeModalUser">
   </modal-lookup-user>
 </div>
+<div>
+  <modal-lookup-user title="Zoek bevoegdheidsgebruiker" :user=authuser v-if="isModalAuthUserVisible" v-on:closemodaluser="closeModalAuthUser">
+  </modal-lookup-user>
+</div>
+
 </template>
 
 <script>
@@ -122,16 +139,21 @@ export default {
             title : 'Aanmaken Bevoegdheidsdelegatie',
             appTypes : [],
             appCodes : [],
+            userAccessCodes : [],
+            authUserAccessCodes : [],
             filter: {},
             filterUsers : [],
-            form : {id : '', 'appType': '', 'amsCode' : ''},
-            isModalVisible : false
+            form : {id : '', 'appType': '', 'amsCode' : '', 'authorityAmsCode' : ''},
+            isModalUserVisible : false,
+            isModalAuthUserVisible : false
         }
     },
 computed : {
   user : function() {
-    console.log('user',this.form.amsCode)
     return this.form.amsCode;
+  },
+  authuser : function() {
+    return this.form.authorityAmsCode;
   }
 },
 methods: {
@@ -161,6 +183,54 @@ methods: {
           this.appCodes = response;
         });
       }, 
+      getLdapUsername(type,amsCode){
+        fetch(this.$store.getters.serverUrl + "/v1/users/users/"+amsCode, {
+          "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
+          "method": "GET"
+        }).then(response => {
+          return response.json()
+        }).then(response => {
+          this.message = response.message;
+          this.error = response.error;
+          if (response.status=='Not Implemented') {
+            if (type=='ams') {
+              this.form.ldapUsername = 'unknown'
+            } else {
+              this.form.authorityLdapUsername = 'unknown'
+            }
+          } else if ((this.error =='') || (this.error == null)) {
+            if (type=='ams') {
+              this.form.ldapUsername = response.ldapUser;
+            } else {
+              this.form.authorityLdapUsername = response.ldapUser;
+            }
+          }
+        });
+      },
+      getAccessCodes(type,amsCode){
+        fetch(this.$store.getters.serverUrl + "/v1/users/users/"+amsCode+"/accesscodes", {
+          "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
+          "method": "GET"
+        }).then(response => {
+          return response.json()
+        }).then(response => {
+          this.message = response.message;
+          this.error = response.error;
+          if (response.status=='Not Implemented') {
+            if (type=='ams') {
+              this.userAccessCodes = ['unknown_1','unknown_2']
+            } else {
+              this.authUserAccessCodes = ['unknown_1','unknown_2']
+            }
+          } else if ((this.error =='') || (this.error == null)) {
+            if (type=='ams') {
+              this.userAccessCodes = response;
+            } else {
+              this.authUserAccessCodes = response;
+            }
+          }
+        });
+      },
       saveData() {
         var url = this.$store.getters.serverUrl + "/v1/users/delegates"
         var method = "POST";
@@ -216,14 +286,27 @@ methods: {
           this.$router.push('/delegates');
       },
       lookupUser() {
-        this.isModalVisible = true;
-        console.log("open modal",this.isModalVisible)
+        this.isModalUserVisible = true;
       },
-    closemodaluser() {
-      console.log('parent closemodal',this.isModalVisible)
-      this.isModalVisible = false;
-      console.log("close modal",this.isModalVisible)
-    }
+      lookupAuthUser() {
+        this.isModalAuthUserVisible = true;
+      },
+      closeModalUser(buttonName, buttonId) {
+        this.isModalUserVisible = false;
+        if (buttonId !=='') {
+          this.form.amsCode = buttonId;
+          this.getAccessCodes('ams',this.form.amsCode);
+          this.getLdapUsername('ams',this.form.amsCode);
+        }
+      },
+      closeModalAuthUser(buttonName, buttonId) {
+        this.isModalAuthUserVisible = false;
+        if (buttonId !=='') {
+          this.form.authorityAmsCode = buttonId;
+          this.getAccessCodes('authams',this.form.authorityAmsCode);
+          this.getLdapUsername('authams',this.form.authorityAmsCode);
+        }
+      },
   },
   created() {
         this.getAppType();
