@@ -14,7 +14,7 @@
       <div class="card-body">
         <form>
         <div class="row mb-2">
-          <div class="col-md-1">User</div>
+          <div class="col-md-1">Gebruiker</div>
           <div class="col-md-3">
             <select class="form-select form-select-sm" v-model="filter.amsCode">
               <option v-for="user in filterUsers" :key=user v-bind:value="user.amsCode">{{user.amsCode}}</option>
@@ -22,21 +22,21 @@
           </div>
         </div>
         <div class="row mb-2">
-          <div class="col-md-1">From</div>
+          <div class="col-md-1">Van</div>
           <div class="col-md-3">
             <vue-Datepicker v-model="filter.useFromTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
           </div>
-          <div class="col-md-1">To</div>
+          <div class="col-md-1">Tot</div>
           <div class="col-md-3">
             <vue-Datepicker v-model="filter.useToTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
           </div>
           <div class="col-md-3">
-            <input type="button" class="btn btn-info" v-on:click="getDelegatesLog();" value="search">
+            <input type="button" class="btn btn-info" v-on:click="getDelegatesLog();" value="zoeken">
           </div>
         </div>
       </form>
         <div class="row">
-          <grid-data ref="grid" title="Logging Bevoegdheidsdelegatie" table="DelegateLog" v-on:gridClickRow="gridclickrow"></grid-data>
+          <grid-data ref="grid" title="Logging" table="DelegateLog" v-on:gridClickRow="gridclickrow"></grid-data>
         </div>
       </div>
     </div>

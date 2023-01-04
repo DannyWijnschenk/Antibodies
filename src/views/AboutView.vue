@@ -1,6 +1,5 @@
 <template>
   <div class="about">
-    <div>Over Users : </div><br>
     <p>Beheer gebruikers instellingen en basis tabellen</p>
     <p>Versie 1.0 - 28/11/2022 - (c) UZ Gent</p>
      <font-awesome-icon icon="fa-solid fa-user-secret" />

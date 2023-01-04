@@ -1,19 +1,19 @@
 <template>
   <div id="nav">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-      <a class="navbar-brand" href="#">&nbsp;Users</a>
+      <div class="navbar-brand" href="#"><img src="./assets/logoUZGent.png" width="126" height="40"/></div>
         <div class="navbar-nav mr-auto">
-            <router-link to="/" class="nav-item nav-link">Home</router-link>
+            <!--<router-link to="/" class="nav-item nav-link">Home</router-link> -->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Bevoegdheidsdelegatie</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <router-link to="/delegates" class="dropdown-item">Beheer</router-link>
-                <router-link to="/delegateslog" class="dropdown-item">Logging</router-link>
+                <router-link to="/delegateslog" class="dropdown-item">Log</router-link>
                 <li><hr class="dropdown-divider"></li>
                 <router-link to="/mypreferences" class="dropdown-item">Mijn Voorkeuren</router-link>
               </ul>
            </li>
-            <router-link to="/about" class="nav-item nav-link">About</router-link>
+           <!-- <router-link to="/about" class="nav-item nav-link">Over</router-link> -->
         </div>
         <div class="navbar-nav ms-auto">
             <li class="nav-item">
@@ -50,11 +50,22 @@ export default {
       }
     }
 
-    var port = location.port;
-    if (process.env.NODE_ENV === 'development') {
+    var protocol = 'https'; ///vepddvp4t.internal.uzgent.be/api/clinicom/dvp4/v1/login
+    var port = '';
+    var domain = document.domain;
+    if ((namespace == 'dvp4') || (namespace == 'td4')) {
+      domain = 'vepddvp4t.internal.uzgent.be'
+    } else if ((namespace == 'tso') || (namespace == 'trn')) {
+      domain = 'clinitest'
+    } else if(namespace == 'prd') {
+      domain = 'clinicom'
+    } else if ((namespace == 'uzgent') || (namespace == 'winfo')) {
+      protocol = 'http';
       port = 57772;
+      domain = 'localhost';
     }
-    var url = location.protocol+"//"+document.domain+":"+port+"/api/clinicom/"+namespace
+    ///var url = location.protocol+"//"+document.domain+":"+port+"/api/clinicom/"+namespace
+    var url = protocol + '://' + domain + ":" + port + "/api/clinicom/" + namespace
     console.log("environment",process.env.NODE_ENV)
     this.$store.dispatch('setServer',url);
     console.log("server is set to ",url)

@@ -20,10 +20,10 @@
             <tr>
               <th v-for="column in header" :key="column" v-on:click="sortColumn(column)">
                 <span v-if="(typeof column === 'object')">
-                  <button v-if="column.button== 'add'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('add')"><font-awesome-icon icon="fa-solid fa-plus"/></button>
-                  <button v-if="column.button== 'refresh'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('refresh')"><font-awesome-icon icon="fa-solid fa-rotate"/></button>
-                  <button v-if="column.button== 'edit'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('edit')"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
-                  <button v-if="column.button== 'select'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('select')"><font-awesome-icon icon="fa-regular fa-thumbs-up"/></button>
+                  <button v-if="column.button== 'add'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('add')" title="toevoegen"><font-awesome-icon icon="fa-solid fa-plus"/></button>
+                  <button v-if="column.button== 'refresh'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('refresh')" title="verversen"><font-awesome-icon icon="fa-solid fa-rotate"/></button>
+                  <button v-if="column.button== 'edit'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('edit')" title="wijzigen"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
+                  <button v-if="column.button== 'select'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('select')" title="selecteren"><font-awesome-icon icon="fa-regular fa-thumbs-up"/></button>
                   <span v-if="(column.icon =='add')"><font-awesome-icon icon="fa-solid fa-plus" /></span>
                   <span v-if="(column.icon =='refresh')"><font-awesome-icon icon="fa-solid fa-rotate" /></span>
                   <span v-if="(column.icon =='edit')"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></span>
@@ -44,10 +44,10 @@
             <tr v-for="row in results" :key="row">
               <td v-for="value of row" :key="value">
                 <span v-if="(typeof value === 'object')">
-                  <button v-if="value.button== 'add'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('add',value.value)"><font-awesome-icon icon="fa-solid fa-plus"/></button>
-                  <button v-if="value.button== 'refresh'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('refresh',value.value)"><font-awesome-icon icon="fa-solid fa-rotate"/></button>
-                  <button v-if="value.button== 'edit'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('edit',value.value)"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
-                  <button v-if="value.button== 'select'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('select',value.value)"><font-awesome-icon icon="fa-regular fa-thumbs-up"/></button>
+                  <button v-if="value.button== 'add'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('add',value.value)" title="toevoegen"><font-awesome-icon icon="fa-solid fa-plus"/></button>
+                  <button v-if="value.button== 'refresh'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('refresh',value.value)" title="verversen"><font-awesome-icon icon="fa-solid fa-rotate"/></button>
+                  <button v-if="value.button== 'edit'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('edit',value.value)" title="wijzigen"><font-awesome-icon icon="fa-regular fa-pen-to-square"/></button>
+                  <button v-if="value.button== 'select'" class="btn btn-outline-primary btn-xs" v-on:click="clickRow('select',value.value)" title="selecteren"><font-awesome-icon icon="fa-regular fa-thumbs-up"/></button>
                   <span v-if="(value.icon =='edit')"><font-awesome-icon icon="fa-solid fa-plus" /></span>
                   <span v-if="(value.icon =='refresh')"><font-awesome-icon icon="fa-solid fa-rotate" /></span>
                   <span v-if="(value.icon =='add')"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></span>
