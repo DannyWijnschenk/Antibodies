@@ -24,7 +24,7 @@
     <div class="card-footer">
       <div class="row mb-2">
         <div class="col-sm-5">
-          <button type="button" class="btn btn-primary" v-on:click="saveData();">Bewaar</button>&nbsp;
+          <button type="button" class="btn btn-outline-primary" v-on:click="saveData();">Bewaar</button>&nbsp;
         </div>
       </div>
     </div>
@@ -65,7 +65,9 @@ export default {
         }).then(response => {
           this.message = response.message;
           this.error = response.error;
-          this.$toast.success('Saved');
+          if ((this.error == undefined) || (this.error == null)) {
+            this.$toast.success('Bewaard');
+          }
         });
       },    
       getData() {

@@ -16,9 +16,13 @@
         <div class="row mb-2">
           <div class="col-md-1">Gebruiker</div>
           <div class="col-md-3">
-            <select class="form-select form-select-sm" v-model="filter.amsCode">
+            <select class="form-select" v-model="filter.amsCode">
               <option v-for="user in filterUsers" :key=user v-bind:value="user.amsCode">{{user.amsCode}}</option>
             </select>
+          </div>
+          <div class="col-md-3">Enkel gedelegeerde toegang</div>
+          <div class="col-md-3">
+            <input type="checkbox" v-model="filter.onlyDelegated"/>
           </div>
         </div>
         <div class="row mb-2">
@@ -26,11 +30,11 @@
           <div class="col-md-3">
             <vue-Datepicker v-model="filter.useFromTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
           </div>
-          <div class="col-md-1">Tot</div>
+          <div class="col-md-3">Tot</div>
           <div class="col-md-3">
             <vue-Datepicker v-model="filter.useToTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
           </div>
-          <div class="col-md-3">
+          <div class="col-md-2">
             <input type="button" class="btn btn-info" v-on:click="getDelegatesLog();" value="zoeken">
           </div>
         </div>

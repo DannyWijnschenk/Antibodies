@@ -41,7 +41,7 @@ export default {
       } else if (button=='edit') {
         this.editRow(id)
       } else if(button=='refresh') {
-        this.$refs.grid.getData(JSON.stringify({}));
+        this.$refs.grid.getData(JSON.stringify({}),10,true);
       }
     },
     addRow() {
@@ -54,7 +54,7 @@ export default {
   mounted() {
     console.log("griddelegates mounted")
     if (this.$store.getters.isLoggedIn) {
-      this.$refs.grid.getData(JSON.stringify({}));
+      this.$refs.grid.getData(JSON.stringify({}),10,true);
     }
   }
 }

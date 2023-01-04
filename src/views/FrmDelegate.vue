@@ -29,7 +29,7 @@
           <div class="col-sm-3">Access Code</div>
           <div class="col-sm-4">
             <select v-if="userAccessCodes.length>0" class="form-select" v-model="form.accessCode">
-              <option v-for="value in userAccessCodes" v-bind:key="value" v-bind:value="value">{{value}}</option>
+              <option v-for="accessCodeObj in userAccessCodes" v-bind:key="accessCodeObj.accessCode" v-bind:value="accessCodeObj.accessCode">{{accessCodeObj.accessCode}}</option>
             </select>
             <div v-else><input type="text" class="form-control" v-model="form.accessCode"/></div>
           </div>
@@ -64,7 +64,7 @@
         <div class="col-sm-3">Authority Access Code</div>
         <div class="col-sm-4">
           <select v-if="authUserAccessCodes.length>0" class="form-select" v-model="form.authorityAccessCode">
-            <option v-for="value in authUserAccessCodes" v-bind:key="value" v-bind:value="value">{{value}}</option>
+            <option v-for="accessCodeObj in authUserAccessCodes" v-bind:key="accessCodeObj.accessCode" v-bind:value="accessCodeObj.accessCode">{{accessCodeObj.accessCode}}</option>
           </select>
           <input v-else type="text" class="form-control" v-model="form.authorityAccessCode"/>
         </div>
@@ -200,9 +200,9 @@ methods: {
             }
           } else if ((this.error =='') || (this.error == null)) {
             if (type=='ams') {
-              this.form.ldapUsername = response.ldapUser;
+              this.form.ldapUsername = response.ldapUserName;
             } else {
-              this.form.authorityLdapUsername = response.ldapUser;
+              this.form.authorityLdapUsername = response.ldapUserName;
             }
           }
         });
@@ -218,9 +218,9 @@ methods: {
           this.error = response.error;
           if (response.status=='Not Implemented') {
             if (type=='ams') {
-              this.userAccessCodes = ['unknown_1','unknown_2']
+              this.userAccessCodes = [{ 'accessCode': 'unknown_1' }, { 'accessCode': 'unknown_2' }]
             } else {
-              this.authUserAccessCodes = ['unknown_1','unknown_2']
+              this.authUserAccessCodes =  [{ 'accessCode': 'unknown_1' }, { 'accessCode': 'unknown_2' }]
             }
           } else if ((this.error =='') || (this.error == null)) {
             if (type=='ams') {
@@ -248,7 +248,9 @@ methods: {
           this.message = response.message;
           this.error = response.error;
           this.form.id = response.id;
-          this.$toast.success('Saved with id '+this.form.id);
+          if ((this.error == undefined) || (this.error == null)) {
+            this.$toast.success('Bewaard');
+          }
         });
       },    
       getData() {

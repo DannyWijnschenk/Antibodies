@@ -66,7 +66,7 @@
 <script>
 export default {
   props: [
-	'table'
+    'table'
   ],
   data() {
     return {
@@ -84,30 +84,33 @@ export default {
       header : []
     }
   },  
- methods : {
-    getData(selection, pageSize) {
-        var url = ""
-        if (selection===undefined) {
-          url = this.$store.getters.serverUrl+"/v1/grid/"+this.table+ "?selection="
-        } else {
-          url = this.$store.getters.serverUrl + "/v1/grid/" + this.table + "?selection=" + selection
-          if (selection != this.selection) {
-            //new selection : we need a new query !
-            this.resultKey = '';  //todo : purge the old results, or we need a param to invalidate the results and run the query again
-          }
+  methods : {
+    getData(selection, pageSize, init=false) {
+      var url = ""
+      if (init) {
+        this.resultKey = ''
+      }
+      if (selection===undefined) {
+        url = this.$store.getters.serverUrl+"/v1/grid/"+this.table+ "?selection="
+      } else {
+        url = this.$store.getters.serverUrl + "/v1/grid/" + this.table + "?selection=" + selection
+        if (selection != this.selection) {
+          //new selection : we need a new query !
+          this.resultKey = '';  //todo : purge the old results, or we need a param to invalidate the results and run the query again
         }
-        if (this.sortKey !='') {
-          url = url + "&sortKey=" + this.sortKey + "&sortDirection=" + this.sortDirection;
-        }
-        if (this.resultKey != '') {
-          url = url + "&resultKey=" + this.resultKey;
-        }
-        if (pageSize>0) {
-          url = url + "&pageSize=" + pageSize;
-        }
-        this.selection = selection;
-        this.baseUrl=this.server + "/v1/grid/" + this.table 
-        this.doFetch(url)
+      }
+      if (this.sortKey !='') {
+        url = url + "&sortKey=" + this.sortKey + "&sortDirection=" + this.sortDirection;
+      }
+      if (this.resultKey != '') {
+        url = url + "&resultKey=" + this.resultKey;
+      }
+      if (pageSize>0) {
+        url = url + "&pageSize=" + pageSize;
+      }
+      this.selection = selection;
+      this.baseUrl=this.server + "/v1/grid/" + this.table 
+      this.doFetch(url)
     },
     doFetch(url) {
       console.log('fetch',url);
@@ -117,8 +120,9 @@ export default {
       fetch(url, {
         "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
         "method": "GET"
-        }).then(response => { 
-         this.pagination = JSON.parse(response.headers.get('x-pagination'));
+      }).then(response => { 
+         console.log('response grid', response.headers)
+         this.pagination = JSON.parse(response.headers.get('X-PAGINATION'));
           if (this.pagination !== null) {
             this.resultKey = this.pagination.resultKey;
             this.sortKey = this.pagination.sortKey;
@@ -157,7 +161,7 @@ export default {
     },
     isSortColumn(column) {
       var found = false;
-      if (this.pagination !== null) {
+      if ((this.pagination !== null) && (this.pagination.sortLabels !== undefined)) {
         for (var i=0;i<this.pagination.sortLabels.length;i++) {
           if (column==this.pagination.sortLabels[i]) {
             found = true;
