@@ -35,7 +35,7 @@
           </div>
       </div>
       <div class="row mb-2">
-          <div class="col-sm-3">Ldap Username</div>
+          <div class="col-sm-3">Ldap Gebruikersnaam</div>
           <div class="col-sm-4"><input type="text" class="form-control" v-model="form.ldapUsername"/></div>
       </div>
       <div class="row mb-2">
@@ -56,12 +56,12 @@
           </div>
       </div>
       <div class="row mb-2">
-          <div class="col-sm-3">Authority Ams Code</div>
+          <div class="col-sm-3">Bevoegdheid Ams Code</div>
           <div class="col-sm-3"><input type="text" class="form-control" v-model="form.authorityAmsCode"/></div>
           <div class="col-sm-1"><button type="button" class="btn btn-outline-secondary" v-on:click="lookupAuthUser();"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></button></div>
       </div>
       <div class="row mb-2">
-        <div class="col-sm-3">Authority Access Code</div>
+        <div class="col-sm-3">Bevoegdheid Access Code</div>
         <div class="col-sm-4">
           <select v-if="authUserAccessCodes.length>0" class="form-select" v-model="form.authorityAccessCode">
             <option v-for="accessCodeObj in authUserAccessCodes" v-bind:key="accessCodeObj.accessCode" v-bind:value="accessCodeObj.accessCode">{{accessCodeObj.accessCode}}</option>
@@ -70,21 +70,21 @@
         </div>
       </div>
       <div class="row mb-2">
-          <div class="col-sm-3">Authority Ldap Username</div>
+          <div class="col-sm-3">Bevoegdheid Ldap Gebruikersnaam</div>
           <div class="col-sm-4"><input type="text" class="form-control" v-model="form.authorityLdapUsername"/></div>
       </div>
       <div class="row mb-2">
-          <div class="col-sm-3">Authority Is Default</div>
+          <div class="col-sm-3">Default Bevoegdheid delegatie </div>
           <div class="col-sm-4"><input type="checkbox" class="form-check-input" v-model="form.authorityIsDefault"/></div>
       </div>
-      <div class="row mb-2">
-          <div class="col-sm-3">Valid From Ts</div>
+      <div class="row">
+          <div class="col-sm-3">Geldig vanaf</div>
           <div class="col-sm-4">
           <vue-Datepicker v-model="form.validFromTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
           </div>
       </div>
-      <div class="row mb-2">
-        <div class="col-sm-3">Valid To Ts</div>
+      <div class="row">
+        <div class="col-sm-3">Geldig tot</div>
         <div class="col-sm-4">
           <vue-Datepicker v-model="form.validToTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
         </div>

@@ -9,8 +9,10 @@
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <router-link to="/delegates" class="dropdown-item">Beheer</router-link>
                 <router-link to="/delegateslog" class="dropdown-item">Log</router-link>
+                <!--
                 <li><hr class="dropdown-divider"></li>
                 <router-link to="/mypreferences" class="dropdown-item">Mijn Voorkeuren</router-link>
+                -->
               </ul>
            </li>
            <!-- <router-link to="/about" class="nav-item nav-link">Over</router-link> -->
