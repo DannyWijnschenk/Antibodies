@@ -23,12 +23,14 @@
             </li>
         </div>
     </nav>
-
- </div>
-
+  </div>
   <router-view/>
 </template>
 
+//TODO : Add views/FrmCareGiverValidateOrder : form to edit ValidateOrder property
+//TODO : router/index.js : add router for FrmCareGiverValidateOrder
+//TODO : App.vue : add menu ValidateOrder : Submenu Wijzig Zorgverlener, Submenu Order Validatie
+//TODO : Instellingen : use pagesize in grids
 <script>
 export default {
   methods: {
@@ -46,8 +48,12 @@ export default {
         namespace = pathArray[i].substring(8);
         break;
       }
-      if (pathArray[i].substring(0,6)=='uzgent') {
-        namespace = 'uzgent';
+      if (pathArray[i].substring(0,6)=='uzgent') {  //development local server Ivan
+        namespace = pathArray[i].substring(0,6);
+        break;
+      }
+      if (pathArray[i].substring(0,5)=='winfo') {  //development local server Danny
+        namespace = pathArray[i].substring(0,5);
         break;
       }
     }
@@ -61,7 +67,7 @@ export default {
       domain = 'clinitest'
     } else if(namespace == 'prd') {
       domain = 'clinicom'
-    } else if ((namespace == 'uzgent') || (namespace == 'winfo')) {
+    } else if ((namespace == 'uzgent') || (namespace == 'winfo')) {  //connect to localhost for local development server
       protocol = 'http';
       port = 57772;
       domain = 'localhost';
