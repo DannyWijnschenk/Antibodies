@@ -6,13 +6,12 @@
     -->
     Welkom, {{getUser()}}
   </div>
+<!--
   <button type="button" class="btn" @click="showModal"> Open Modal! </button>
   <modal-lookup title="TheTitle" v-if="isModalVisible" v-on:closemodallookup="closemodal">
-    <p>this is my content</p>
-    <p>this is my content</p>
-    <p>this is my content</p>
-    <p>this is my content</p>
+
   </modal-lookup>
+-->
 </template>
 
 <script>
@@ -34,17 +33,14 @@ export default {
     loggedin()
     {},
     getUser() {
-      this.$toast.show(`Hey! I'm here`);
+      //this.$toast.show(`Hey! I'm here`);
       return this.$store.getters.user
     },
     showModal() {
       this.isModalVisible = true;
-      console.log("open modal",this.isModalVisible)
-    },
+     },
     closemodal() {
-      console.log('parent closemodal',this.isModalVisible)
       this.isModalVisible = false;
-      console.log("close modal",this.isModalVisible)
     }
   }
 }
