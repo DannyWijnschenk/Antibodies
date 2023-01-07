@@ -35,7 +35,7 @@
             <vue-Datepicker v-model="filter.useToTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
           </div>
           <div class="col-md-2">
-            <input type="button" class="btn btn-info" v-on:click="getDelegatesLog();" value="zoeken">
+            <input type="button" class="btn btn-outline-primary" v-on:click="getDelegatesLog();" value="zoeken">
           </div>
         </div>
       </form>
@@ -82,12 +82,6 @@ export default {
           this.filterUsers = response;
         });
       }, 
-    //getDemoGrid() {
-    //  this.refresh(this.getDemoGridNow);  //get refresh token if needed, call actual getGridNow as callback to prevent async lag
-    //},
-    //refresh(callBack) {
-    //  this.$refs.login.refresh(this.accessToken, this.refreshToken, this.accessTokenExpDate, callBack);
-    //},
     getDelegatesLog() {
       this.$refs.grid.getData(JSON.stringify(this.filter));
     }

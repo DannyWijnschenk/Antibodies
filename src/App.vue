@@ -16,6 +16,13 @@
               </ul>
            </li>
            <!-- <router-link to="/about" class="nav-item nav-link">Over</router-link> -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ordervalidatie</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <router-link to="/caregivers/ordervalidation" class="dropdown-item">Beheer Zorgverleners</router-link>
+                <router-link to="/ordervalidatie" class="dropdown-item">Ordervalidatie</router-link>
+              </ul>
+           </li>
         </div>
         <div class="navbar-nav ms-auto">
             <li class="nav-item">
@@ -42,7 +49,7 @@ export default {
     console.log("app is mounted"); //was : http://localhost:57772/api/clinicom/dvp4 
     var path = location.pathname;  //e.g. /csp/demo/page.csp
     var pathArray = path.split('/');
-    var namespace = 'dvp4';
+    var namespace = 'uzgent';
     for (var i=0;i<pathArray.length;i++) {
       if (pathArray[i].substring(0,8)=='dsa-cla-') {
         namespace = pathArray[i].substring(8);
