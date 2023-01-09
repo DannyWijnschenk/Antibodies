@@ -6,7 +6,7 @@
         <input type="text" v-model="filter.userName">
       </div>
       <div class="col-md-1">
-        <input type="button" class="btn btn-info" v-on:click="getData();" value="zoeken" />
+        <input type="button" class="btn btn-outline-primary" v-on:click="getData();" value="zoeken" />
       </div>
     </div>
     <div class="row">
@@ -35,9 +35,6 @@
     },
     methods: {
       getData() {
-        console.log("getdata",this.filter.userName)
-        console.log("getdata",{'userName' : this.filter.userName})
-        console.log("getdata",JSON.stringify({'userName' : this.filter.userName}))
         this.$refs.grid.getData(JSON.stringify({'userName' : this.filter.userName}),5);
       },
       closemodal() {

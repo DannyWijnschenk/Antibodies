@@ -20,7 +20,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ordervalidatie</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <router-link to="/caregivers/ordervalidation" class="dropdown-item">Beheer Zorgverleners</router-link>
-                <router-link to="/ordervalidatie" class="dropdown-item">Ordervalidatie</router-link>
+                <router-link v-if="false" to="/ordervalidatie" class="dropdown-item">Ordervalidatie</router-link>
               </ul>
            </li>
         </div>
@@ -34,10 +34,9 @@
   <router-view/>
 </template>
 
-//TODO : Add views/FrmCareGiverValidateOrder : form to edit ValidateOrder property
-//TODO : router/index.js : add router for FrmCareGiverValidateOrder
-//TODO : App.vue : add menu ValidateOrder : Submenu Wijzig Zorgverlener, Submenu Order Validatie
 //TODO : Instellingen : use pagesize in grids
+//TODO : button in grid search user : btn-outline
+//TODO : menu depending of access rights logged in user
 <script>
 export default {
   methods: {

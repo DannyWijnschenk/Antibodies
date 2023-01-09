@@ -32,7 +32,7 @@
             <div class="col-sm-3">Ordervalidatie dienst</div>
             <div class="col-sm-3">
               <select class="form-select" v-model="form.orderValidation">
-                <option v-for="orderValidationObj in orderValidations" v-bind:key="orderValidationObj.code" v-bind:value="orderValidationObj.code">{{orderValidation.code}} ({{orderValidationObj.description}})</option>
+                <option v-for="orderValidationObj in orderValidations" v-bind:key="orderValidationObj.id" v-bind:value="orderValidationObj.id">{{orderValidationObj.id}} ({{orderValidationObj.description}})</option>
               </select>
             </div>
           </div>
@@ -65,7 +65,7 @@ export default {
             status : '',
             message : '',
             title : 'Beheer zorgverlener ordervalidatie',
-            ordervalidations : [],
+            orderValidations : ['one','two'],
             filter: {},
             form : {id : '', 'idNumber': '', 'familyName' : '', 'foreName' : '', 'orderValidation' : ''},
         }
@@ -76,7 +76,7 @@ methods: {
       loggedin() {
       },
       getOrderValidations() {  //service for orderValidation
-        fetch(this.$store.getters.serverUrl + "/v1/patients/caregivers/ordervalidations", {
+        fetch(this.$store.getters.serverUrl + "/v1/hospital/financialservices", {
           "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
           "method": "GET"
         }).then(response => {
@@ -84,7 +84,8 @@ methods: {
         }).then(response => {
           this.message = response.message;
           this.error = response.error;
-          this.ordervalidations = response;
+          this.orderValidations = response;
+          console.log('response',response)
         });
       }, 
       saveData() {
