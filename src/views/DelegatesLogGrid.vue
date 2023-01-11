@@ -83,7 +83,7 @@ export default {
         });
       }, 
     getDelegatesLog() {
-      this.$refs.grid.getData(JSON.stringify(this.filter),_,true);
+      this.$refs.grid.getData(JSON.stringify(this.filter),10,true);
     }
   },
   created() {
