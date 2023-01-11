@@ -76,7 +76,7 @@ methods: {
       loggedin() {
       },
       getOrderValidations() {  //service for orderValidation
-        fetch(this.$store.getters.serverUrl + "/v1/hospital/financialservices", {
+        fetch(this.$store.getters.serverUrl + "/v1/hospital/medicalunits", {
           "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
           "method": "GET"
         }).then(response => {
