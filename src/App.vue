@@ -48,7 +48,7 @@ export default {
     console.log("app is mounted"); //was : http://localhost:57772/api/clinicom/dvp4 
     var path = location.pathname;  //e.g. /csp/demo/page.csp
     var pathArray = path.split('/');
-    var namespace = 'uzgent';
+    var namespace = 'tso';
     for (var i=0;i<pathArray.length;i++) {
       if (pathArray[i].substring(0,8)=='dsa-cla-') {
         namespace = pathArray[i].substring(8);
@@ -70,9 +70,9 @@ export default {
     if ((namespace == 'dvp4') || (namespace == 'td4')) {
       domain = 'vepddvp4t.internal.uzgent.be'
     } else if ((namespace == 'tso') || (namespace == 'trn')) {
-      domain = 'clinitest'
+      domain = 'clinitest.internal.uzgent.be'
     } else if(namespace == 'prd') {
-      domain = 'clinicom'
+      domain = 'clinicom.internal.uzgent.be'
     } else if ((namespace == 'uzgent') || (namespace == 'winfo')) {  //connect to localhost for local development server
       protocol = 'http';
       port = 57772;
