@@ -5,6 +5,7 @@ import FrmDelegate from '../views/FrmDelegate.vue'
 import FrmLogin from '../views/FrmLogin.vue'
 import GridDelegatesLog from '../views/GridDelegatesLog.vue'
 import FrmMyPreferences from '../views/FrmMyPreferences.vue'
+import GridMergeField from '../views/MergeFieldGrid.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -17,6 +18,7 @@ const router = createRouter({
     { path: '/delegates/:delegateId',  name: 'FrmDelegate',      component: FrmDelegate },
     { path: '/delegateslog',           name: 'GridDelegatesLog', component: GridDelegatesLog },
     { path: '/mypreferences',          name: 'FrmMyPreferences', component: FrmMyPreferences },
+    { path: '/mergefield',             name: 'GridMergeField',   component: GridMergeField },
   ]
   })
 

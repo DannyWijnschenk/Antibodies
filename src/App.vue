@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary"> <!--testxxxxxx-->
       <a class="navbar-brand" href="#">&nbsp;Users</a>
         <div class="navbar-nav mr-auto">
             <router-link to="/" class="nav-item nav-link">Home</router-link>
@@ -14,6 +14,7 @@
               </ul>
            </li>
             <router-link to="/about" class="nav-item nav-link">About</router-link>
+            <router-link to="/mergefield" class="nav-item nav-link">MergeField</router-link>
         </div>
         <div class="navbar-nav ms-auto">
             <li class="nav-item">
@@ -38,7 +39,7 @@ export default {
     console.log("app is mounted"); //was : http://localhost:57772/api/clinicom/dvp4 
     var path = location.pathname;  //e.g. /csp/demo/page.csp
     var pathArray = path.split('/');
-    var namespace = 'dvp4';
+    var namespace = 'winfo';
     for (var i=0;i<pathArray.length;i++) {
       if (pathArray[i].substring(0,8)=='dsa-cla-') {
         namespace = pathArray[i].substring(8);
@@ -54,7 +55,7 @@ export default {
     if (process.env.NODE_ENV === 'development') {
       port = 57772;
     }
-    var url = location.protocol+"//"+document.domain+":"+port+"/api/clinicom/"+namespace
+    var url = location.protocol+"//"+document.domain+":"+port+"/api/"+namespace
     console.log("environment",process.env.NODE_ENV)
     this.$store.dispatch('setServer',url);
     console.log("server is set to ",url)
