@@ -3,14 +3,24 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary"> <!--testxxxxxx-->
       <a class="navbar-brand" href="#">&nbsp;Users</a>
         <div class="navbar-nav mr-auto">
-            <router-link to="/" class="nav-item nav-link">Home</router-link>
+            <!--<router-link to="/" class="nav-item nav-link">Home</router-link> -->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Bevoegdheidsdelegatie</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <router-link to="/delegates" class="dropdown-item">Beheer</router-link>
-                <router-link to="/delegateslog" class="dropdown-item">Logging</router-link>
+                <router-link to="/delegateslog" class="dropdown-item">Log</router-link>
+                <!--
                 <li><hr class="dropdown-divider"></li>
                 <router-link to="/mypreferences" class="dropdown-item">Mijn Voorkeuren</router-link>
+                -->
+              </ul>
+           </li>
+           <!-- <router-link to="/about" class="nav-item nav-link">Over</router-link> -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ordervalidatie</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <router-link to="/caregivers/ordervalidation" class="dropdown-item">Beheer Zorgverleners</router-link>
+                <router-link v-if="false" to="/ordervalidatie" class="dropdown-item">Ordervalidatie</router-link>
               </ul>
            </li>
             <router-link to="/about" class="nav-item nav-link">About</router-link>
@@ -22,12 +32,13 @@
             </li>
         </div>
     </nav>
-
- </div>
-
+  </div>
   <router-view/>
 </template>
 
+//TODO : Instellingen : use pagesize in grids
+//TODO : button in grid search user : btn-outline
+//TODO : menu depending of access rights logged in user
 <script>
 export default {
   methods: {
@@ -45,17 +56,28 @@ export default {
         namespace = pathArray[i].substring(8);
         break;
       }
-      if (pathArray[i].substring(0,6)=='uzgent') {
-        namespace = 'uzgent';
+      if (pathArray[i].substring(0,6)=='uzgent') {  //development local server Ivan
+        namespace = pathArray[i].substring(0,6);
+        break;
+      }
+      if (pathArray[i].substring(0,5)=='winfo') {  //development local server Danny
+        namespace = pathArray[i].substring(0,5);
         break;
       }
     }
 
-    var port = location.port;
-    if (process.env.NODE_ENV === 'development') {
+    var port = '';
+    var domain = document.domain;
+    if ((namespace == 'dvp4') || (namespace == 'td4')) {
+      domain = 'vepddvp4t.internal.uzgent.be'
+    } else if ((namespace == 'tso') || (namespace == 'trn')) {
+      domain = 'clinitest.internal.uzgent.be'
+    } else if(namespace == 'prd') {
+      domain = 'clinicom.internal.uzgent.be'
+    } else if ((namespace == 'uzgent') || (namespace == 'winfo')) {  //connect to localhost for local development server
       port = 57772;
     }
-    var url = location.protocol+"//"+document.domain+":"+port+"/api/"+namespace
+    var url = location.protocol+"//"+domain+":"+port+"/api/"+namespace
     console.log("environment",process.env.NODE_ENV)
     this.$store.dispatch('setServer',url);
     console.log("server is set to ",url)

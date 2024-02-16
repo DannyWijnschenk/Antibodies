@@ -2,7 +2,7 @@
   <login-dialog v-if='!this.$store.getters.isLoggedIn' ref="login" title="Login Server" app="UserApp" v-on:loggedin="loggedin"></login-dialog>
   <br>
   <div class="ps-2 pe-2">  <!-- padding start and padding end of 2 pixels -->
-  <div class="container-fluid card ps-2" v-if='this.$store.getters.isLoggedIn'>  <!-- inner padding of 2 pixels -->
+  <div class="container-fluid card ps-2" v-show='this.$store.getters.isLoggedIn'>  <!-- inner padding of 2 pixels -->
     <div class="card-header">
       <div>
         <b>{{title}}</b>
@@ -41,7 +41,7 @@ export default {
       } else if (button=='edit') {
         this.editRow(id)
       } else if(button=='refresh') {
-        this.$refs.grid.getData(JSON.stringify({}));
+        this.$refs.grid.getData(JSON.stringify({}),10,true);
       }
     },
     addRow() {
@@ -54,7 +54,7 @@ export default {
   mounted() {
     console.log("griddelegates mounted")
     if (this.$store.getters.isLoggedIn) {
-      this.$refs.grid.getData(JSON.stringify({}));
+      this.$refs.grid.getData(JSON.stringify({}),10,true);
     }
   }
 }

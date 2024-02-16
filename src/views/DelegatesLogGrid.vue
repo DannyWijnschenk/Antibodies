@@ -14,29 +14,33 @@
       <div class="card-body">
         <form>
         <div class="row mb-2">
-          <div class="col-md-1">User</div>
+          <div class="col-md-1">Gebruiker</div>
           <div class="col-md-3">
-            <select class="form-select form-select-sm" v-model="filter.amsCode">
+            <select class="form-select" v-model="filter.amsCode">
               <option v-for="user in filterUsers" :key=user v-bind:value="user.amsCode">{{user.amsCode}}</option>
             </select>
           </div>
+          <div class="col-md-3">Enkel gedelegeerde toegang</div>
+          <div class="col-md-3">
+            <input type="checkbox" v-model="filter.onlyDelegated"/>
+          </div>
         </div>
         <div class="row mb-2">
-          <div class="col-md-1">From</div>
+          <div class="col-md-1">Van</div>
           <div class="col-md-3">
             <vue-Datepicker v-model="filter.useFromTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
           </div>
-          <div class="col-md-1">To</div>
+          <div class="col-md-3">Tot</div>
           <div class="col-md-3">
             <vue-Datepicker v-model="filter.useToTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
           </div>
-          <div class="col-md-3">
-            <input type="button" class="btn btn-info" v-on:click="getDelegatesLog();" value="search">
+          <div class="col-md-2">
+            <input type="button" class="btn btn-outline-primary" v-on:click="getDelegatesLog();" value="zoeken">
           </div>
         </div>
       </form>
         <div class="row">
-          <grid-data ref="grid" title="Logging Bevoegdheidsdelegatie" table="DelegateLog" v-on:gridClickRow="gridclickrow"></grid-data>
+          <grid-data ref="grid" title="Logging" table="DelegateLog" v-on:gridClickRow="gridclickrow"></grid-data>
         </div>
       </div>
     </div>
@@ -78,14 +82,8 @@ export default {
           this.filterUsers = response;
         });
       }, 
-    //getDemoGrid() {
-    //  this.refresh(this.getDemoGridNow);  //get refresh token if needed, call actual getGridNow as callback to prevent async lag
-    //},
-    //refresh(callBack) {
-    //  this.$refs.login.refresh(this.accessToken, this.refreshToken, this.accessTokenExpDate, callBack);
-    //},
     getDelegatesLog() {
-      this.$refs.grid.getData(JSON.stringify(this.filter));
+      this.$refs.grid.getData(JSON.stringify(this.filter),10,true);
     }
   },
   created() {

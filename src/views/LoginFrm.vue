@@ -1,7 +1,7 @@
 <template>
-<login-dialog ref="login" title="Login Server" app="UserApp" v-on:loggedin="loggedin"></login-dialog>
+ <login-dialog v-if='!this.$store.getters.isLoggedIn' ref="login" title="Login Server" app="UserApp" v-on:loggedin="loggedin"></login-dialog>
   <div class="home" v-if='this.$store.getters.isLoggedIn'>
-    Welkom, {{getUser()}}
+    <!-- Welkom, {{getUser()}} -->
   </div>
 </template>
 

@@ -1,7 +1,14 @@
 <template>
   <modal-lookup title="title" v-if="isModalVisible" v-on:closemodallookup="closemodal">
-    <p>this is my content{{user}}</p>
-    <input type="button" class="btn btn-info" v-on:click="getData();" value="search">
+    <div class="row mb-2">
+      <div class="col-md-2">Naam Gebruiker</div>
+      <div class="col-md-3">
+        <input type="text" v-model="filter.userName">
+      </div>
+      <div class="col-md-1">
+        <input type="button" class="btn btn-outline-primary" v-on:click="getData();" value="zoeken" />
+      </div>
+    </div>
     <div class="row">
       <grid-data ref="grid" title="" table="User" v-on:gridClickRow="gridClickRow"></grid-data>
     </div>
@@ -22,11 +29,13 @@
     emits: ["closemodaluser"],
     data() {
         return {
-            isModalVisible : true        }
+          isModalVisible: true,
+          filter: {'userName' : ''}
+        }
     },
     methods: {
       getData() {
-        this.$refs.grid.getData(JSON.stringify({}),5);
+        this.$refs.grid.getData(JSON.stringify({'userName' : this.filter.userName}),5);
       },
       closemodal() {
         console.log("modallookupuser:close")

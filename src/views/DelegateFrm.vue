@@ -29,13 +29,13 @@
           <div class="col-sm-3">Access Code</div>
           <div class="col-sm-4">
             <select v-if="userAccessCodes.length>0" class="form-select" v-model="form.accessCode">
-              <option v-for="value in userAccessCodes" v-bind:key="value" v-bind:value="value">{{value}}</option>
+              <option v-for="accessCodeObj in userAccessCodes" v-bind:key="accessCodeObj.accessCode" v-bind:value="accessCodeObj.accessCode">{{accessCodeObj.accessCode}}</option>
             </select>
             <div v-else><input type="text" class="form-control" v-model="form.accessCode"/></div>
           </div>
       </div>
       <div class="row mb-2">
-          <div class="col-sm-3">Ldap Username</div>
+          <div class="col-sm-3">Ldap Gebruikersnaam</div>
           <div class="col-sm-4"><input type="text" class="form-control" v-model="form.ldapUsername"/></div>
       </div>
       <div class="row mb-2">
@@ -56,35 +56,35 @@
           </div>
       </div>
       <div class="row mb-2">
-          <div class="col-sm-3">Authority Ams Code</div>
+          <div class="col-sm-3">Bevoegdheid Ams Code</div>
           <div class="col-sm-3"><input type="text" class="form-control" v-model="form.authorityAmsCode"/></div>
           <div class="col-sm-1"><button type="button" class="btn btn-outline-secondary" v-on:click="lookupAuthUser();"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></button></div>
       </div>
       <div class="row mb-2">
-        <div class="col-sm-3">Authority Access Code</div>
+        <div class="col-sm-3">Bevoegdheid Access Code</div>
         <div class="col-sm-4">
           <select v-if="authUserAccessCodes.length>0" class="form-select" v-model="form.authorityAccessCode">
-            <option v-for="value in authUserAccessCodes" v-bind:key="value" v-bind:value="value">{{value}}</option>
+            <option v-for="accessCodeObj in authUserAccessCodes" v-bind:key="accessCodeObj.accessCode" v-bind:value="accessCodeObj.accessCode">{{accessCodeObj.accessCode}}</option>
           </select>
           <input v-else type="text" class="form-control" v-model="form.authorityAccessCode"/>
         </div>
       </div>
       <div class="row mb-2">
-          <div class="col-sm-3">Authority Ldap Username</div>
+          <div class="col-sm-3">Bevoegdheid Ldap Gebruikersnaam</div>
           <div class="col-sm-4"><input type="text" class="form-control" v-model="form.authorityLdapUsername"/></div>
       </div>
       <div class="row mb-2">
-          <div class="col-sm-3">Authority Is Default</div>
+          <div class="col-sm-3">Default Bevoegdheid delegatie </div>
           <div class="col-sm-4"><input type="checkbox" class="form-check-input" v-model="form.authorityIsDefault"/></div>
       </div>
-      <div class="row mb-2">
-          <div class="col-sm-3">Valid From Ts</div>
+      <div class="row">
+          <div class="col-sm-3">Geldig vanaf</div>
           <div class="col-sm-4">
           <vue-Datepicker v-model="form.validFromTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
           </div>
       </div>
-      <div class="row mb-2">
-        <div class="col-sm-3">Valid To Ts</div>
+      <div class="row">
+        <div class="col-sm-3">Geldig tot</div>
         <div class="col-sm-4">
           <vue-Datepicker v-model="form.validToTs" locale="nld" cancelText="terug" selectText="selecteer" format="dd/MM/yyyy" :enableTimePicker="false" autoApply></vue-Datepicker>&nbsp;&nbsp;
         </div>
@@ -200,9 +200,9 @@ methods: {
             }
           } else if ((this.error =='') || (this.error == null)) {
             if (type=='ams') {
-              this.form.ldapUsername = response.ldapUser;
+              this.form.ldapUsername = response.ldapUserName;
             } else {
-              this.form.authorityLdapUsername = response.ldapUser;
+              this.form.authorityLdapUsername = response.ldapUserName;
             }
           }
         });
@@ -218,9 +218,9 @@ methods: {
           this.error = response.error;
           if (response.status=='Not Implemented') {
             if (type=='ams') {
-              this.userAccessCodes = ['unknown_1','unknown_2']
+              this.userAccessCodes = [{ 'accessCode': 'unknown_1' }, { 'accessCode': 'unknown_2' }]
             } else {
-              this.authUserAccessCodes = ['unknown_1','unknown_2']
+              this.authUserAccessCodes =  [{ 'accessCode': 'unknown_1' }, { 'accessCode': 'unknown_2' }]
             }
           } else if ((this.error =='') || (this.error == null)) {
             if (type=='ams') {
@@ -248,7 +248,9 @@ methods: {
           this.message = response.message;
           this.error = response.error;
           this.form.id = response.id;
-          this.$toast.success('Saved with id '+this.form.id);
+          if ((this.error == undefined) || (this.error == null)) {
+            this.$toast.success('Bewaard');
+          }
         });
       },    
       getData() {
