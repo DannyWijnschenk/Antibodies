@@ -23,6 +23,7 @@
     "stylus-loader": "^3.0.2",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
+    "vuejs-confirm-dialog": "^0.5.1",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

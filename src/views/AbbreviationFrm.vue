@@ -23,36 +23,12 @@
             <div class="col-sm-4">{{form.id}}</div>
           </div>
           <div class="row mb-2">
-            <div class="col-sm-3">WordFieldName</div>
-            <div class="col-sm-4"><input type="text" class="form-control" v-model="form.wordFieldName"></div>
+            <div class="col-sm-3">Name</div>
+            <div class="col-sm-4"><input type="text" class="form-control" v-model="form.name"></div>
           </div>
           <div class="row mb-2">
-            <div class="col-sm-3">DatabaseFieldName</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.databaseFieldName"/></div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-sm-3">ExampleValue</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.exampleValue"></div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-sm-3">Category</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.category"></div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-sm-3">CalculateClass</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.calculateClass"></div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-sm-3">CalculateMethod</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.calculateMethod"></div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-sm-3">CalculateParameters</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.calculateParameters"></div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-sm-3">ActiveFlag</div>
-            <div class="col-sm-6"><input type="checkbox" class="form-check-input" v-model="form.activeFlag"></div>
+            <div class="col-sm-3">Abbreviation</div>
+            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.abbreviation"/></div>
           </div>
         </div>
         
@@ -85,11 +61,9 @@ export default {
           error : '',
           status : '',
           message : '',
-          title : 'MergeField Setting',
+          title : 'Abbreviation Setting',
           filter: {},
-          filterUsers : [],
-          form : {id : '', 'wordFieldName': '', 'databaseFieldName' : '', 'exampleValue' : '', 'category': '',
-                  'calculateClass' : '', 'calculateMethod': '', 'calculateParameters': '', 'activeFlag': 0},
+          form : {id : '', 'name': '', 'abbreviation' : ''},
       }
   },
 computed : {
@@ -98,7 +72,7 @@ methods: {
     loggedin() {
     },
     saveData() {
-      var url = this.$store.getters.serverUrl + "/v1/word/mergefield"
+      var url = this.$store.getters.serverUrl + "/v1/word/abbreviation"
       var method = "POST";
       if ((this.form.id != '')  && (this.form.id !== undefined)) {
         method = "PUT";
@@ -120,7 +94,7 @@ methods: {
       });
     },    
     getData() {
-      var url = this.$store.getters.serverUrl + "/v1/word/mergefield/"+this.form.id;
+      var url = this.$store.getters.serverUrl + "/v1/word/abbreviation/"+this.form.id;
       fetch(url, {
         "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
         "method": "GET"
@@ -133,7 +107,7 @@ methods: {
       });
     },    
     removeData() {
-      var url = this.$store.getters.serverUrl + "/v1/word/mergefield/"+this.form.id;
+      var url = this.$store.getters.serverUrl + "/v1/word/abbreviation/"+this.form.id;
       fetch(url, {
         "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
         "method": "DELETE"
@@ -146,21 +120,39 @@ methods: {
           this.form = {};
           this.$toast.show('Deleted', {type : 'error'});
         }
-        this.$router.push('/wordmergefield');
+        this.$router.push('/wordabbreviation');
       });
     },
     back() {
-        this.$router.push('/wordmergefield');
+        this.$router.push('/wordabbreviation');
+    },
+    lookupUser() {
+      this.isModalUserVisible = true;
+    },
+    lookupAuthUser() {
+      this.isModalAuthUserVisible = true;
+    },
+    closeModalUser(buttonName, buttonId) {
+      this.isModalUserVisible = false;
+      if (buttonId !=='') {
+        this.form.amsCode = buttonId;
+      }
+    },
+    closeModalAuthUser(buttonName, buttonId) {
+      this.isModalAuthUserVisible = false;
+      if (buttonId !=='') {
+        this.form.authorityAmsCode = buttonId;
+      }
     },
 },
 created() {
       this.id = this.$route.params.id
       if (this.id=='new') {
           this.if = ''
-          this.title = 'Aanmaken Word Merge Velden'
+          this.title = 'Aanmaken Word Afkorting'
       } else {
           this.form.id = this.id;
-          this.title = 'Wijzigen Word Merge Velden'
+          this.title = 'Wijzigen Word Afkorting'
           this.getData()
       }
   }

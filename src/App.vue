@@ -24,7 +24,11 @@
               </ul>
            </li>
             <router-link to="/about" class="nav-item nav-link">About</router-link>
-            <router-link to="/mergefield" class="nav-item nav-link">MergeField</router-link>
+            <router-link to="/wordmergefield" class="nav-item nav-link">MergeField</router-link>
+            <router-link to="/wordquery" class="nav-item nav-link">QueryDefinition</router-link>
+            <router-link to="/wordabbreviation" class="nav-item nav-link">Abbreviation</router-link>
+
+
         </div>
         <div class="navbar-nav ms-auto">
             <li class="nav-item">

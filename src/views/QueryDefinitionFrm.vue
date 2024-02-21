@@ -23,32 +23,20 @@
             <div class="col-sm-4">{{form.id}}</div>
           </div>
           <div class="row mb-2">
-            <div class="col-sm-3">WordFieldName</div>
-            <div class="col-sm-4"><input type="text" class="form-control" v-model="form.wordFieldName"></div>
+            <div class="col-sm-3">QueryName</div>
+            <div class="col-sm-4"><input type="text" class="form-control" v-model="form.queryName"></div>
           </div>
           <div class="row mb-2">
-            <div class="col-sm-3">DatabaseFieldName</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.databaseFieldName"/></div>
+            <div class="col-sm-3">CalculationType</div>
+            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.calculationType"/></div>
           </div>
           <div class="row mb-2">
-            <div class="col-sm-3">ExampleValue</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.exampleValue"></div>
+            <div class="col-sm-3">CalculationCode</div>
+            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.calculationCode"></div>
           </div>
           <div class="row mb-2">
-            <div class="col-sm-3">Category</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.category"></div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-sm-3">CalculateClass</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.calculateClass"></div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-sm-3">CalculateMethod</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.calculateMethod"></div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-sm-3">CalculateParameters</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.calculateParameters"></div>
+            <div class="col-sm-3">Parameters</div>
+            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.parameters"></div>
           </div>
           <div class="row mb-2">
             <div class="col-sm-3">ActiveFlag</div>
@@ -69,7 +57,6 @@
 </div>
 </form>
 </div>
-
 </template>
 
 <script>
@@ -85,11 +72,10 @@ export default {
           error : '',
           status : '',
           message : '',
-          title : 'MergeField Setting',
+          title : 'QueryDefinition Setting',
           filter: {},
-          filterUsers : [],
-          form : {id : '', 'wordFieldName': '', 'databaseFieldName' : '', 'exampleValue' : '', 'category': '',
-                  'calculateClass' : '', 'calculateMethod': '', 'calculateParameters': '', 'activeFlag': 0},
+          form : {id : '', 'queryName': '', 'calculationType' : '', 'calculationCode' : '', 'parameters': '',
+                  'activeFlag': 0},
       }
   },
 computed : {
@@ -98,7 +84,7 @@ methods: {
     loggedin() {
     },
     saveData() {
-      var url = this.$store.getters.serverUrl + "/v1/word/mergefield"
+      var url = this.$store.getters.serverUrl + "/v1/word/query"
       var method = "POST";
       if ((this.form.id != '')  && (this.form.id !== undefined)) {
         method = "PUT";
@@ -120,7 +106,7 @@ methods: {
       });
     },    
     getData() {
-      var url = this.$store.getters.serverUrl + "/v1/word/mergefield/"+this.form.id;
+      var url = this.$store.getters.serverUrl + "/v1/word/query/"+this.form.id;
       fetch(url, {
         "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
         "method": "GET"
@@ -133,7 +119,7 @@ methods: {
       });
     },    
     removeData() {
-      var url = this.$store.getters.serverUrl + "/v1/word/mergefield/"+this.form.id;
+      var url = this.$store.getters.serverUrl + "/v1/word/query/"+this.form.id;
       fetch(url, {
         "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
         "method": "DELETE"
@@ -146,21 +132,21 @@ methods: {
           this.form = {};
           this.$toast.show('Deleted', {type : 'error'});
         }
-        this.$router.push('/wordmergefield');
+        this.$router.push('/wordquery');
       });
     },
     back() {
-        this.$router.push('/wordmergefield');
+        this.$router.push('/wordquery');
     },
 },
 created() {
       this.id = this.$route.params.id
       if (this.id=='new') {
           this.if = ''
-          this.title = 'Aanmaken Word Merge Velden'
+          this.title = 'Aanmaken Query Definitie'
       } else {
           this.form.id = this.id;
-          this.title = 'Wijzigen Word Merge Velden'
+          this.title = 'Wijzigen Query Definitie'
           this.getData()
       }
   }

@@ -12,7 +12,7 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <grid-data ref="grid" titleHeading="MergeField" table="MergeField" v-on:gridClickRow="gridclickrow"></grid-data>
+          <grid-data ref="grid" titleHeading="QueryDefinition" table="QueryDefinition" v-on:gridClickRow="gridclickrow"></grid-data>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@ export default {
   },
   data() {
     return {
-      title : 'MergeField Settings',
+      title : 'QueryDefinition Settings',
       error : '',
       status : '',
       filter: {  },
@@ -53,10 +53,10 @@ export default {
       }
     },
     editParameter(id) {
-      this.$router.push('/wordmergefield/'+id);
+      this.$router.push('/wordquery/'+id);
     },
     addParameter() {
-      this.$router.push('/wordmergefield/new');
+      this.$router.push('/wordquery/new');
     },
     getParameters(refresh = false) {
       this.$refs.grid.getData(JSON.stringify(this.filter),null,refresh);
