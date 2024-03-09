@@ -142,7 +142,7 @@ export default {
       console.log('fetch',url);
       this.results = [];
       this.header = [];
-      this.title = "Ophalen Gegevens ...";
+      this.title = "Getting Data ...";
       fetch(url, {
         "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
         "method": "GET"

@@ -1,6 +1,6 @@
 # userapp
 
-UZ Gent Gebruiker Backoffice
+BioStrand Demo Antibodies with Vector Search
 
 ## Project setup
 ```

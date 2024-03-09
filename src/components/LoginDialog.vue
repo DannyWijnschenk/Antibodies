@@ -86,7 +86,9 @@ export default {
 					} else {
 						this.accesses = response.userAccessCodes;
 						this.userAccessCode = '';
-						this.step = 'access';
+						//this.step = 'access';
+						this.userAccessCode = 'test';
+						this.selectAccess();
 						this.error = '';
 					}
 				} else {

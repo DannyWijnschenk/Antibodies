@@ -23,24 +23,16 @@
             <div class="col-sm-4">{{form.id}}</div>
           </div>
           <div class="row mb-2">
-            <div class="col-sm-3">QueryName</div>
-            <div class="col-sm-4"><input type="text" class="form-control" v-model="form.queryName"></div>
+            <div class="col-sm-3">Name</div>
+            <div class="col-sm-4"><input type="text" class="form-control" v-model="form.name"></div>
           </div>
           <div class="row mb-2">
-            <div class="col-sm-3">CalculationType</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.calculationType"/></div>
+            <div class="col-sm-3">Chain</div>
+            <div class="col-sm-4"><input type="text" class="form-control" v-model="form.chain"></div>
           </div>
           <div class="row mb-2">
-            <div class="col-sm-3">CalculationCode</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.calculationCode"></div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-sm-3">Parameters</div>
-            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.parameters"></div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-sm-3">ActiveFlag</div>
-            <div class="col-sm-6"><input type="checkbox" class="form-check-input" v-model="form.activeFlag"></div>
+            <div class="col-sm-3">Sequence</div>
+            <div class="col-sm-6"><input type="text" class="form-control" v-model="form.sequence"/></div>
           </div>
         </div>
         
@@ -48,15 +40,16 @@
         <div class="card-footer">
     <div class="row mb-2">
       <div class="col-sm-5">
-        <button type="button" class="btn btn-outline-primary" v-on:click="saveData();">Bewaar</button>&nbsp;
-        <button v-if="(form.id!=='')&&(form.id!==undefined)" type="button" class="btn btn-outline-danger" v-on:click="removeData();">Verwijder</button>&nbsp;
-        <button type="button" class="btn btn-outline-secondary" v-on:click="back();">Terug</button>&nbsp;
+        <button type="button" class="btn btn-outline-primary" v-on:click="saveData();">Save</button>&nbsp;
+        <button v-if="(form.id!=='')&&(form.id!==undefined)" type="button" class="btn btn-outline-danger" v-on:click="removeData();">Delete</button>&nbsp;
+        <button type="button" class="btn btn-outline-secondary" v-on:click="back();">Back</button>&nbsp;
       </div>
     </div>
   </div>
 </div>
 </form>
 </div>
+
 </template>
 
 <script>
@@ -72,10 +65,9 @@ export default {
           error : '',
           status : '',
           message : '',
-          title : 'QueryDefinition Setting',
+          title : 'Antibodies',
           filter: {},
-          form : {id : '', 'queryName': '', 'calculationType' : '', 'calculationCode' : '', 'parameters': '',
-                  'activeFlag': 0},
+          form : {id : '', 'name': '', 'chain' : ''},
       }
   },
 computed : {
@@ -84,7 +76,7 @@ methods: {
     loggedin() {
     },
     saveData() {
-      var url = this.$store.getters.serverUrl + "/v1/word/query"
+      var url = this.$store.getters.serverUrl + "/v1/antibodies"
       var method = "POST";
       if ((this.form.id != '')  && (this.form.id !== undefined)) {
         method = "PUT";
@@ -101,12 +93,12 @@ methods: {
         this.error = response.error;
         this.form.id = response.id;
         if ((this.error == undefined) || (this.error == null)) {
-          this.$toast.success('Bewaard');
+          this.$toast.success('Saved');
         }
       });
     },    
     getData() {
-      var url = this.$store.getters.serverUrl + "/v1/word/query/"+this.form.id;
+      var url = this.$store.getters.serverUrl + "/v1/antibodies/"+this.form.id;
       fetch(url, {
         "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
         "method": "GET"
@@ -119,7 +111,7 @@ methods: {
       });
     },    
     removeData() {
-      var url = this.$store.getters.serverUrl + "/v1/word/query/"+this.form.id;
+      var url = this.$store.getters.serverUrl + "/v1/antibodies/"+this.form.id;
       fetch(url, {
         "headers" : { "Authorization": 'Bearer ' + this.$store.getters.serverAccessToken },
         "method": "DELETE"
@@ -132,21 +124,39 @@ methods: {
           this.form = {};
           this.$toast.show('Deleted', {type : 'error'});
         }
-        this.$router.push('/wordquery');
+        this.$router.push('/similarity');
       });
     },
     back() {
-        this.$router.push('/wordquery');
+        this.$router.push('/similarity');
+    },
+    lookupUser() {
+      this.isModalUserVisible = true;
+    },
+    lookupAuthUser() {
+      this.isModalAuthUserVisible = true;
+    },
+    closeModalUser(buttonName, buttonId) {
+      this.isModalUserVisible = false;
+      if (buttonId !=='') {
+        this.form.amsCode = buttonId;
+      }
+    },
+    closeModalAuthUser(buttonName, buttonId) {
+      this.isModalAuthUserVisible = false;
+      if (buttonId !=='') {
+        this.form.authorityAmsCode = buttonId;
+      }
     },
 },
 created() {
       this.id = this.$route.params.id
       if (this.id=='new') {
           this.if = ''
-          this.title = 'Aanmaken Query Definitie'
+          this.title = 'Create Antibody'
       } else {
           this.form.id = this.id;
-          this.title = 'Wijzigen Query Definitie'
+          this.title = 'Edit Antibody'
           this.getData()
       }
   }
